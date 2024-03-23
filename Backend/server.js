@@ -6,8 +6,6 @@ const mysql = require('mysql2')
 const cors = require('cors')
 app.use(express.json())
 app.use(cors())
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
 app.listen(3002,(req,res)=>{
     console.log('le serveur est sur le port 3002 !');
 })
@@ -115,12 +113,23 @@ app.get('/listeUser/:value', (req, res) => {
     });
 });
 const upload = multer();
-
-app.post('/FichiersPage',upload.single('file'),(req,res)=>{
-    const file = req.file
-
-
-    console.log(file)
-    res.status(200).send('Fichier reçu avec succès');
-
-})
+const csvtojson = require('csvtojson');
+app.post('/FichiersPage', upload.single('file'), (req, res) => {
+    if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+    }
+  
+    const file = req.file;
+  
+    // Convertir le fichier CSV en JSON
+    csvtojson()
+      .fromString(file.buffer.toString()) // Convertir le buffer du fichier en chaîne CSV
+      .then((jsonObj) => {
+        console.log(jsonObj);
+        res.status(200).json(jsonObj); // Renvoyer le JSON résultant
+      })
+      .catch((error) => {
+        console.error('Error converting CSV to JSON', error);
+        res.status(500).send('Error converting CSV to JSON');
+      });
+  });

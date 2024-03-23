@@ -53,7 +53,7 @@ const Fichiers_page = () => {
         <input
             class=""
             type='file'
-            // accept='.csv'
+            accept='.csv'
             name="file" id="file" 
             hidden
             onChange={handleUpload}
