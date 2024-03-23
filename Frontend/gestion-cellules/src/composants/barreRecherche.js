@@ -6,7 +6,7 @@ const BarreRecherche = ({value , setValue}) => {
     }
     
     return (
-            <div className="flex justify-center items-center h-full w-full mx-16">
+            <div className="flex justify-center items-center h-full w-full ">
                 <input
                 type="text"
                 placeholder="Rechercher..."

@@ -1,10 +1,13 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser');
+const multer = require('multer');
 const mysql = require('mysql2')
 const cors = require('cors')
 app.use(express.json())
 app.use(cors())
-
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 app.listen(3002,(req,res)=>{
     console.log('le serveur est sur le port 3002 !');
 })
@@ -111,3 +114,13 @@ app.get('/listeUser/:value', (req, res) => {
         }
     });
 });
+const upload = multer();
+
+app.post('/FichiersPage',upload.single('file'),(req,res)=>{
+    const file = req.file
+
+
+    console.log(file)
+    res.status(200).send('Fichier reçu avec succès');
+
+})

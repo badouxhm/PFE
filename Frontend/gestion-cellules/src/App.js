@@ -9,6 +9,7 @@ import AdminAccueil from './pages/Admin_accueil'
 import Editeuraccueil from './pages/editeur_acceuil'
 import ViewerAccueil from './pages/viewer_accueil'
 import UserPage from './pages/userPage'
+import FichiersPage from './pages/Fichiers_page'
 function App() {
   return (
     <div>
@@ -21,6 +22,7 @@ function App() {
         <Route path="/editeurAccueil" element={<Editeuraccueil/>}/>
         <Route path="/viewerAccueil" element={<ViewerAccueil/>}/>
         <Route path="/UserPage" element={<UserPage/>}/>
+        <Route path="/FichiersPage" element={<FichiersPage/>}/>
         <Route path="*" element={<NoPage/>}/>
       </Routes>
       </BrowserRouter>
