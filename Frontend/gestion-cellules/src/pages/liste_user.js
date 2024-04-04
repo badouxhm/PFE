@@ -1,7 +1,7 @@
 import React from 'react'
 import NavBar from '../composants/NavBar.jsx'
 import Footer from '../composants/Footer'
-import ListeUsers from '../helpers/liste.jsx'
+import Liste from '../helpers/listeUsers.jsx'
 
 const liste_user = () => {
     const liens =[
@@ -12,9 +12,8 @@ const liste_user = () => {
   return (
     <div>
       <NavBar links={liens}/>
-      <ListeUsers />
+      <Liste/>
       <Footer/>
-
     </div>
   )
 }

@@ -1,0 +1,44 @@
+/* Largeur de la barre de défilement */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  /* Couleur de fond de la barre de défilement */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Couleur de la poignée de défilement */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+  }
+  
+  /* Ombre de la poignée de défilement au survol */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  .scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(155, 155, 155, 0.5);
+    border-radius: 3px;
+    border: transparent;
+}
+
+/* Classe tailwind */
+.max-h-80 {
+    max-height: 20rem; /* Ajustez la hauteur maximale comme vous le souhaitez */
+}

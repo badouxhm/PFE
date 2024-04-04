@@ -10,6 +10,7 @@ import Editeuraccueil from './pages/editeur_acceuil'
 import ViewerAccueil from './pages/viewer_accueil'
 import UserPage from './pages/userPage'
 import FichiersPage from './pages/Fichiers_page'
+import CellulesPage from './pages/cellulesPage';
 function App() {
   return (
     <div>
@@ -23,6 +24,7 @@ function App() {
         <Route path="/viewerAccueil" element={<ViewerAccueil/>}/>
         <Route path="/UserPage" element={<UserPage/>}/>
         <Route path="/FichiersPage" element={<FichiersPage/>}/>
+        <Route path="/cellulesPage" element={<CellulesPage/>}/>
         <Route path="*" element={<NoPage/>}/>
       </Routes>
       </BrowserRouter>

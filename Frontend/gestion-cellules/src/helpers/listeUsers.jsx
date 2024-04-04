@@ -67,7 +67,7 @@ const Liste = () => {
 
   return (
     <div className='bg-gray-100 min-h-screen'>
-        <div className='flex flex-col mt-10 p-28 bg-gray-100'>
+        <div className='flex flex-col mt-10 p-28 bg-gray-100 '>
             <div className='flex flex-row '>
                 <BarreRecherche value={rechercheKey} setValue={setRechercheKey}   />
                 <a href='/addUser' >
@@ -78,7 +78,7 @@ const Liste = () => {
                 </button>
                 </a>
             </div>
-            <div className="bg-gray-100 flex items-center justify-center ralative rounded-md  ">
+            <div className="bg-gray-100 flex items-center justify-center ralative">
                 <div className="container mx-auto flex-col " >
                     <div className='flex'>
                     <table className="w-full border-collapse m-10 rounded-lg shadow-md overflow-hidden ">

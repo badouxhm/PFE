@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect } from 'react'
 import { CiImport } from "react-icons/ci";
+
 // import Importer from '../composants/Importer'
 import NavBar from '../composants/NavBar'
+import ListeFile from '../composants/liste_files';
 import axios from 'axios';
 const Fichiers_page = () => {
     const [file,setFile] = useState(null)
+    const [files,setFiles] = useState(null)
+    
     let fd = null; // Déclaration de fd en dehors de la fonction Importer
 
 
@@ -21,12 +25,15 @@ const Fichiers_page = () => {
 
         const handleClick = () => {
           if (file === null) {
-            console.log("Aucun fichier sélectionné", file);
+            console.log("Aucun fichier sélectionné !");
             return;
           }
           fd = new FormData();
           fd.append('file', file);
           console.log("Fichier sélectionné :", file);
+          fd.append('nom', file.name);
+          fd.append('date_modification', file.lastModifiedDate.toISOString());
+          console.log(fd)
           SendFile();
         }
       
@@ -36,7 +43,7 @@ const Fichiers_page = () => {
             return;
           }
       
-          axios.post("http://localhost:3002/FichiersPage",fd
+          axios.post("http://localhost:3002/FichiersPage",fd 
           ).then(() => {
             console.log("Fichier envoyé !");
           }).catch(error => {
@@ -44,7 +51,16 @@ const Fichiers_page = () => {
           });
         }
       
-      
+        useEffect(() => {
+          axios.get('http://localhost:3002/FichiersPage')
+          .then((res)=>{
+            // console.log(res.data)
+            setFiles(res.data)
+          })
+          .catch((err)=>{
+            console.error('Error fetching files:', err);
+          })
+        }, []);
   return (
     <>
     <NavBar links={liens} />
@@ -72,6 +88,11 @@ const Fichiers_page = () => {
                     </div>
         </button >
     </div>
+    <div>
+      <h1 className='text-2xl uppercase text-center text-red-600 '>Liste des fichiers ajoutés récemment</h1>
+      <ListeFile files={files} />
+    </div>
+
     </>
   )
 }
