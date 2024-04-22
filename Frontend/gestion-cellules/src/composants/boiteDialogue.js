@@ -21,7 +21,7 @@ const boiteDialogue = ({message,onDialog}) => {
             <button 
             className='text-white'
             onClick={()=>onDialog(true)} 
-            >Supprimer</button>
+            >Valider</button>
           </div>
         </div>
       </div>

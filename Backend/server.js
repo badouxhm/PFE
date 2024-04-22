@@ -197,7 +197,7 @@ app.post('/FichiersPage', upload.single('file'), (req, res) => {
     });
 });
 app.get('/FichiersPage', (req, res) => {
-    const sql = 'SELECT * FROM fichiers';
+    const sql = 'SELECT * FROM fichiers ORDER BY date_ajout DESC;';
     db.query(sql, (err, resultat) => {
         if (err) {
             res.send({ error: err }); // Correction de la faute de frappe ici
@@ -229,4 +229,82 @@ app.get('/cellulesPage',(req,res)=>{
         }
     });
 
+})
+app.delete('/cellulesPage/:id',(req,res)=>{
+    const id = req.params.id
+    const sql = "DELETE FROM sites WHERE id_c = ?"
+    const value = [id]
+    db.query(sql,value,(err,resultat)=>{
+        if (err)console.log("error :",err)
+        else console.log("supprimer !")
+    })
+})
+app.get('/cellulesPage/:value', (req, res) => {
+    const rechercheKey = '%'+req.params.value+'%'
+    const value = [rechercheKey, rechercheKey, rechercheKey, rechercheKey, rechercheKey,rechercheKey, rechercheKey, rechercheKey, rechercheKey, rechercheKey,rechercheKey, rechercheKey, rechercheKey, rechercheKey, rechercheKey,rechercheKey, rechercheKey, rechercheKey, rechercheKey, rechercheKey,rechercheKey, rechercheKey];
+    
+    const sql = 'SELECT * FROM sites WHERE id_c LIKE ? OR SUP LIKE ? OR Site_Code LIKE ? OR Site_location LIKE ? OR Cell_CI LIKE ? OR Cell_Name LIKE ? OR CI_DEC LIKE ? OR CI_HEX LIKE ? OR LAC LIKE ? OR LAC_HEX LIKE ? OR Technologie LIKE ? OR BSC_OMC LIKE ? OR BSC LIKE ? OR Site_Status LIKE ? OR X LIKE ? OR Y LIKE ? OR COMMUNE LIKE ? OR code_commune LIKE ? OR ID LIKE ? OR WILAYA LIKE ? OR NATURE LIKE ? OR CODE LIKE ?'
+    db.query(sql, value, (err, resultat) => {
+        if (err) {
+            res.send({ error: err });
+            console.log(err);
+        } else {
+            res.json(resultat);
+            console.log("ok rechercher !");
+        }
+    });
+});
+app.post('/addCell',(req,res)=>{
+    const SUP = req.body.sup;
+    const Site_Code = req.body.siteCode;
+    const Site_location = req.body.SiteLocation;
+    const Cell_CI = req.body.CellCI;
+    const Cell_Name = req.body.CellName;
+    const CI_DEC = req.body.ciDec;
+    const CI_HEX = req.body.ciHex;
+    const LAC = req.body.lac;
+    const LAC_HEX = req.body.lacHex;
+    const Technologie = req.body.technologie;
+    const BSC_OMC = req.body.bscOmc;
+    const BSC = req.body.bsc;
+    const Site_Status = req.body.SiteStatus;
+    const X = req.body.x;
+    const Y = req.body.y;
+    const COMMUNE = req.body.commune;
+    const code_commune = req.body.codeCommune;
+    const ID = req.body.id;
+    const WILAYA = req.body.wilaya;
+    const NATURE = req.body.nature;
+    const CODE = req.body.code;
+    
+    const sql = `
+    INSERT INTO sites (SUP, Site_Code, Site_location, Cell_CI, Cell_Name, CI_DEC, CI_HEX, LAC, LAC_HEX, Technologie, BSC_OMC, BSC, Site_Status, X, Y, COMMUNE, code_commune, ID, WILAYA, NATURE, CODE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const valeurs = [SUP, Site_Code, Site_location, Cell_CI, Cell_Name, CI_DEC, CI_HEX, LAC, LAC_HEX, Technologie, BSC_OMC, BSC, Site_Status, X, Y, COMMUNE, code_commune, ID, WILAYA, NATURE, CODE];
+
+    const sqlVerification = 'SELECT * FROM sites WHERE id = ?'
+
+    db.query(sqlVerification,ID,(err,resultat) => {
+        if(err){
+            console.error('Erreur lors de la recuperation de la BDD :', err);
+            res.status(500).send('rreur lors de la recuperation de la BDD ');
+        }else{
+            console.log("verification...")
+            if(resultat.length>0){
+                console.log("cellule existante deja !")
+                res.send({message: 'Cellule deja existante'})
+            }else{
+                db.query(sql, valeurs, (err, resultat) => {
+                    if (err) {
+                        console.error('Erreur lors de l\'insertion dans la base de données :', err);
+                        res.status(500).send('Erreur lors de l\'insertion dans la base de données');
+                    } 
+                    
+                    else {
+                        console.log(`utilisateur ajouté à la BDD `);
+
+                    }
+                });
+            }
+        }
+    });
 })

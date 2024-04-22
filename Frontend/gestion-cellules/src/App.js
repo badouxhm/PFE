@@ -11,6 +11,8 @@ import ViewerAccueil from './pages/viewer_accueil'
 import UserPage from './pages/userPage'
 import FichiersPage from './pages/Fichiers_page'
 import CellulesPage from './pages/cellulesPage';
+import AddCell from './composants/Add_cell';
+import MapPage from './pages/mapPage'
 function App() {
   return (
     <div>
@@ -18,6 +20,7 @@ function App() {
       <Routes>
         <Route index element={<PageConnexion/>}/>
         <Route path="/addUser" element={<AddUserPage/>}/>
+        <Route path="/addCell" element={<AddCell/>}/>
         <Route path="/listeUser" element={<ListeUser/>}/>
         <Route path="/AdminAccueil" element={<AdminAccueil/>}/>
         <Route path="/editeurAccueil" element={<Editeuraccueil/>}/>
@@ -25,6 +28,7 @@ function App() {
         <Route path="/UserPage" element={<UserPage/>}/>
         <Route path="/FichiersPage" element={<FichiersPage/>}/>
         <Route path="/cellulesPage" element={<CellulesPage/>}/>
+        <Route path="/map" element={<MapPage/>}/>
         <Route path="*" element={<NoPage/>}/>
       </Routes>
       </BrowserRouter>

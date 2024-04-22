@@ -13,19 +13,6 @@ const Liste = () => {
     const [rechercheKey,setRechercheKey] = useState('')
     const [deleteId,setDeletedId] =useState(0);
     
-    useEffect(() => {
-        if (deleted) {
-            setDeleted(false)
-            axios.get('http://localhost:3002/listeUser')
-                .then((res) => {
-                    setInitialData(res.data);
-                    setData(res.data)
-                }).catch((error) => {
-                    console.error('Error fetching users:', error);
-                });
-        }
-    }, [deleted]);
-    
     useEffect(()=>{
         if(rechercheKey){
             console.log("recherche declanché")
@@ -42,6 +29,20 @@ const Liste = () => {
             setData(InitialData)
         }
     },[rechercheKey,InitialData])
+    
+    useEffect(() => {
+        if (deleted) {
+            setDeleted(false)
+            axios.get('http://localhost:3002/listeUser')
+                .then((res) => {
+                    setInitialData(res.data);
+                    setData(res.data)
+                }).catch((error) => {
+                    console.error('Error fetching users:', error);
+                });
+        }
+    }, [deleted]);
+    
     
     const deleteUser = (id) => {
         console.log("deleteUser est declanché")
