@@ -37,6 +37,7 @@ const Liste = () => {
                 .then((res) => {
                     setInitialData(res.data);
                     setData(res.data)
+                    console.log(res.data)
                 }).catch((error) => {
                     console.error('Error fetching users:', error);
                 });
@@ -47,7 +48,7 @@ const Liste = () => {
     const deleteUser = (id) => {
         console.log("deleteUser est declanché")
         setDeleted(true);
-        axios.delete(`http://localhost:3002/listeUser/${id}`)
+        axios.post(`http://localhost:3002/listeUser/${id}`)
             .catch((error) => {
                 console.error('Error deleting user:', error);
             });
@@ -101,6 +102,9 @@ const Liste = () => {
                             Role
                             </th> 
                             <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-white uppercase">
+                            Status
+                            </th> 
+                            <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-white uppercase">
                             Actions
                             </th>
                         </tr>
@@ -118,12 +122,13 @@ const Liste = () => {
                                                     <td className="px-6 py-4 ">{item.prenom}</td>
                                                     <td className="px-6 py-4 ">{item.email}</td>
                                                     <td className="px-6 py-4 ">  {item.role === 0 ? "admin" : item.role === 1 ? "editeur" : item.role === 2 ? "viewer" : ""}</td>
+                                                    <td className="px-6 py-4 ">{item.status === 0 ? "Desactivé" : item.status === 1 ? "Activé" : ""}</td>
                                                     <td className="px-6 py-4 ">
                                                         <button
                                                         className="text-red-600 hover:text-red-900"
                                                         onClick={()=>handleSupprimer(item.id)}
                                                         >
-                                                        Supprimer
+                                                        Change status
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -132,7 +137,7 @@ const Liste = () => {
                         </tbody>
                     </table>
                 </div>
-                {dialogue && <BoiteDialogue message='Vous voulez vraiment supprimer l`utilisateur ?' onDialog={onDialog}/>}
+                {dialogue && <BoiteDialogue message='Vous voulez vraiment changer le status de l`utilisateur ?' onDialog={onDialog}/>}
                 
 
                 </div>

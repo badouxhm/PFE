@@ -4,6 +4,7 @@ import { CiImport } from "react-icons/ci";
 // import Importer from '../composants/Importer'
 import NavBar from '../composants/NavBar'
 import ListeFile from '../composants/liste_files';
+import Footer from '../composants/Footer';
 import axios from 'axios';
 const Fichiers_page = () => {
     const [file,setFile] = useState(null)
@@ -65,6 +66,7 @@ const Fichiers_page = () => {
     <>
     <NavBar links={liens} />
     <div className="container mx-auto flex-col flex items-center justify-center m-10 mt-32" >
+    <h1 className="text-2xl font-bold mb-6 text-center text-red-600">Importer un fichier</h1>
     <div className=' bg-red-600 hover:bg-red-900 text-white text-2xl font-bold py-2 px-4 rounded w-3/5 flex items-center justify-center'>
         <input
             class=""
@@ -89,10 +91,10 @@ const Fichiers_page = () => {
         </button >
     </div>
     <div>
-      <h1 className='text-2xl uppercase text-center text-red-600 '>Liste des fichiers ajoutés récemment</h1>
+      <h1 className='text-2xl text-center text-red-600 '>Liste des fichiers ajoutés récemment</h1>
       <ListeFile files={files} />
     </div>
-
+    <Footer/>
     </>
   )
 }

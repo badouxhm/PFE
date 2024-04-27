@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
-const Add_cell = () => {
+const UpdateCell = () => {
 
     const [sup, setSup] = useState('');
     const [siteCode, setSiteCode] = useState('');
@@ -26,11 +27,13 @@ const Add_cell = () => {
     const [code, setCode] = useState('');
     const [MessageExist,setMessageExist] = useState(false)
 
+    const location = useLocation()
 
+    const id_c = location.pathname.split("/")[2]
 
-  const createCell =(e)=>{
+  const updateCell =(e)=>{
     e.preventDefault();
-    axios.post('http://localhost:3002/addCell',{
+    axios.put('http://localhost:3002/updateCell/'+id_c,{
       sup : sup,
       siteCode : siteCode,
       siteLocation : siteLocation,
@@ -64,7 +67,7 @@ const Add_cell = () => {
     <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4 mt-24">
             <div className="container mx-auto w-2/3">
                 <div className="bg-white p-8 rounded-lg shadow-md">
-                    <h2 className="text-2xl font-bold mb-6 text-center text-red-600">Ajouter une cellule</h2>
+                    <h2 className="text-2xl font-bold mb-6 text-center text-red-600">Modifier une cellule</h2>
                     <div className={MessageExist ? "" : "hidden"}>
                       <h4 className='bg-red-600 text-white mx-10 rounded-lg text-center'>E-mail deja existant !</h4>
                     </div>
@@ -371,7 +374,7 @@ const Add_cell = () => {
                             <button
                                 type="submit"
                                 className="bg-red-600 text-white p-2 rounded-md hover:bg-red-900"
-                                onClick={createCell}
+                                onClick={updateCell}
                             >
                                 Valider
                             </button>
@@ -384,4 +387,4 @@ const Add_cell = () => {
 };
 
 
-export default Add_cell
+export default UpdateCell

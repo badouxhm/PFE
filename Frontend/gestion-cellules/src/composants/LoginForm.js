@@ -9,15 +9,40 @@ function LoginForm() {
   const [loginPassword, setLoginPassword] = useState('')
   const [loginEmail, setLoginEmail] = useState('')
   const [MessageIncorrect,setMessageIncorrect] = useState(false)
+  const [Token, setToken] = useState('')
   const navigateTo = useNavigate()  
+
+  // Fonction pour enregistrer le token JWT dans le stockage local
+  const saveTokenToLocalStorage = (Token) => {
+    localStorage.setItem('jwtToken', Token);
+  };
+
+  // Fonction pour récupérer le token JWT depuis le stockage local
+  const getTokenFromLocalStorage = () => {
+    return localStorage.getItem('jwtToken');
+  };
+
+  // Fonction pour supprimer le token JWT du stockage local lors de la déconnexion
+  // const removeTokenFromLocalStorage = () => {
+  //   localStorage.removeItem('jwtToken');
+  // };
 
   const loginUser =(e)=>{
     e.preventDefault();
-    axios.post('http://localhost:3002/',{
-      Email : loginEmail,
-      Password : loginPassword
-    }).then((response)=>{
+    axios.post('http://localhost:3002/', {
+    Email: loginEmail,
+    Password: loginPassword,
+    Authorization: `${getTokenFromLocalStorage()}`,
+    },
+    )
+      .then((response)=>{
       console.log(response.data)
+      if(response.data.token){
+         setToken(response.data.token);
+         saveTokenToLocalStorage(response.data.token)
+         console.log("le token" , Token)
+      }
+
       if (response.data.role === 0){navigateTo('/AdminAccueil')}
       else if(response.data.role === 1){navigateTo('/editeurAccueil')}
       else if(response.data.role === 2){navigateTo('/viewerAccueil')}
