@@ -7,7 +7,7 @@ Router.post('/',(req,res)=>{
     const email = req.body.Email;
     const password = req.body.Password;
     
-    const sql = 'SELECT * FROM users WHERE email = ? && password = ? ';
+    const sql = 'SELECT * FROM users WHERE email = ? && password = ? && status = 1';
     const valeurs = [email,password];
     
     db.query(sql, valeurs, (err, resultat) => {
@@ -15,8 +15,14 @@ Router.post('/',(req,res)=>{
             res.send({erorr: err})
         } 
         if(resultat.length>0){
-            const token = generateToken(email,password);  
-            console.log("le token : " ,token)
+            const id=resultat[0].id
+            const nom=resultat[0].nom
+            const prenom=resultat[0].prenom
+            const role=resultat[0].role
+            const token = generateToken(id,nom,prenom,email,password,role);
+            
+            console.log(resultat[0].role)
+            res.send({token:token ,role : resultat[0].role})
         }else{
             console.log('E-mail ou Mot de passe incorrect')
             res.send({message: 'E-mail ou Mot de passe incorrect'})

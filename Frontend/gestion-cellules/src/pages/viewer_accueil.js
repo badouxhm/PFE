@@ -1,16 +1,12 @@
 import React from 'react'
-import NavBar from '../composants/NavBar'
 import Footer from '../composants/Footer'
+import NavBarviewer from '../navBars/navBarViewer'
 const viewer_accueil = () => {
-    const liens =[
-        {name: 'Home' , lien:'/'},
-        {name: 'Users' , lien:'/listeUser'},
-        {name: 'Cellules' , lien:'/'},
-      ]
+
 
   return (
     <div>
-      <NavBar links={liens}/>
+      <NavBarviewer />
       <Footer/>
     </div>
   )

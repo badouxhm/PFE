@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import SuccessDialog from './SuccesDialog';
+import { useNavigate } from 'react-router-dom';
 
 const Add_cell = () => {
 
@@ -25,12 +27,19 @@ const Add_cell = () => {
     const [nature, setNature] = useState('');
     const [code, setCode] = useState('');
     const [MessageExist,setMessageExist] = useState(false)
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+    const navigateTo = useNavigate()  
 
-
+    const handleCloseSuccessModal = () => {
+        setShowSuccessModal(false);
+        navigateTo('/cellulesPage')
+      };
+      const userinfo = JSON.parse(sessionStorage.getItem('user'))
+      const userId = userinfo.id
   const createCell =(e)=>{
     e.preventDefault();
-    axios.post('http://localhost:3002/addCell',{
+    axios.post(`http://localhost:3002/addCell/${userId}`,{
       sup : sup,
       siteCode : siteCode,
       siteLocation : siteLocation,
@@ -52,7 +61,11 @@ const Add_cell = () => {
       wilaya : wilaya,
       nature : nature,
       code : code,
-    }).then((resultat)=>{
+    },{headers :{'Authorization': `${sessionStorage.getItem('token')}`}}
+    ).then((resultat)=>{
+    if (resultat.data.recu) {
+        setShowSuccessModal(true);
+      }
       if (resultat.data.message){
         console.log(resultat.data)
         setMessageExist(true)
@@ -65,8 +78,8 @@ const Add_cell = () => {
             <div className="container mx-auto w-2/3">
                 <div className="bg-white p-8 rounded-lg shadow-md">
                     <h2 className="text-2xl font-bold mb-6 text-center text-red-600">Ajouter une cellule</h2>
-                    <div className={MessageExist ? "" : "hidden"}>
-                      <h4 className='bg-red-600 text-white mx-10 rounded-lg text-center'>E-mail deja existant !</h4>
+                    <div className= {MessageExist ? "h-10" : "hidden h-10" }>
+                      <h4 className='bg-red-600 mx-10 text-white  rounded-lg text-center text-xl'>Cellule deja existante !</h4>
                     </div>
                     <form >
                         <div className="mb-4">
@@ -377,6 +390,12 @@ const Add_cell = () => {
                             </button>
                         </div>
                     </form>
+                    {showSuccessModal && (
+                    <SuccessDialog
+                    message="Cellule ajouté avec succès !"
+                    onClose={handleCloseSuccessModal}
+                    />
+                )}
                 </div>
             </div>
         </div>

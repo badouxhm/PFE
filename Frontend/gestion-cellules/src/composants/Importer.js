@@ -23,7 +23,7 @@ const Importer = () => {
       return;
     }
 
-    axios.post("http://localhost:3000/FichiersPage", {
+    axios.post("http://localhost:3000/FichiersPage",{headers :{'Authorization': `${sessionStorage.getItem('token')}`}}, {
       data: fd,
     }).then(() => {
       console.log("Fichier envoyé !");

@@ -1,14 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react';
 import BarreRecherche from './barreRecherche';
-import BoiteDialogue from '../composants/boiteDialogue';
-import { FaPlus } from "react-icons/fa";
 import { LiaAngleLeftSolid } from "react-icons/lia";
 import { LiaAngleRightSolid } from "react-icons/lia";
 import { FiChevronsRight } from "react-icons/fi";
 import { FiChevronsLeft } from "react-icons/fi";
-import { GoPencil } from "react-icons/go";
-import { RiForbid2Line } from "react-icons/ri";
 import './ScrollBar.css';
 import axios from 'axios';
 
@@ -17,8 +13,6 @@ const ListeCellules = () => {
     const [initialcells, setInitialcells] = useState([]);
     const [cells, setCells] = useState([]);
     const [listeVisible, setListeVisible] = useState(false);
-    const [dialogueSuprimmer, setDialogueSuprimmer] = useState(false);
-    const [deleteId, setDeletedId] = useState(0);
     const [deleted, setDeleted] = useState(true);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -109,19 +103,6 @@ const ListeCellules = () => {
         });
     };
 
-    const handleSupprimer = (id) => {
-        setDialogueSuprimmer(true);
-        setDeletedId(id);
-    };
-
-    const onDialogSup = (choix) => {
-        if (choix) {
-            deleteCell(deleteId);
-            setDialogueSuprimmer(false);
-        } else {
-            setDialogueSuprimmer(false);
-        }
-    };
 
     useEffect(() => {
         if (rechercheKey) {
@@ -150,29 +131,15 @@ const ListeCellules = () => {
                 });
         }
     }, [deleted]);
-    const userinfo = JSON.parse(sessionStorage.getItem('user'))
-    const userId = userinfo.id
-    const deleteCell = (id) => {
-        setDeleted(true);
-        axios.delete(`http://localhost:3002/cellulesPage/${id}/${userId}`,{headers :{'Authorization': `${sessionStorage.getItem('token')}`}})
-            .catch((error) => {
-                console.error('Error deleting user:', error);
-            });
-    };
-    
+
+
 
     return (
         <div className='bg-gray-100 min-h-screen min-w-max'>
             <div className='flex flex-col mt-10 p-28 px-2 bg-gray-100'>
                 <div className='flex flex-row '>
                     <BarreRecherche value={rechercheKey} setValue={setRechercheKey}/>
-                    <a href='/addCell'>
-                        <button>
-                            <div className=' bg-red-600 hover:bg-red-900 flex items-center justify-center w-16 h-10 rounded-md text-2xl text-white  p-3 mr-12'>
-                                <FaPlus />
-                            </div>
-                        </button>
-                    </a>
+                    
                     <div>
                         <button
                             id="dropdownCheckboxButton"
@@ -228,7 +195,7 @@ const ListeCellules = () => {
                                             valeur && <th key={cle} className="px-6 py-3 text-center text-xs font-medium text-white uppercase">{cle}</th>
                                         ))}
                                         <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase">status</th>
-                                        <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase">action</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
@@ -262,20 +229,6 @@ const ListeCellules = () => {
                                                 <td className={`px-6 py-4 ${colonnesVisibles.nature ? '' : 'hidden'}`}>{item.NATURE}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.code ? '' : 'hidden'}`}>{item.CODE}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.code ? '' : 'hidden'}`}>{item.status === 0 ? "Desactivé" : item.status === 1 ? "Activé" : ""}</td>
-                                                <td className="px-6 py-4">
-                                                    <div className='flex flex-row'>
-                                                        <button
-                                                            className="text-xl mx-2 text-red-600 hover:text-red-900"
-                                                            onClick={() => handleSupprimer(item.id_c)}
-                                                        >
-                                                            <RiForbid2Line />
-                                                        </button>
-                                                        <a href={`/updateCell/${item.id_c}`} className="text-xl mx-2 text-red-600 hover:text-red-900">
-                                                            <GoPencil />
-                                                        </a>
-                                                    </div>
-                                                        
-                                                </td>
                                             </tr>
                                         ))
                                     )}
@@ -284,7 +237,6 @@ const ListeCellules = () => {
                             
 
                         </div>
-                        {dialogueSuprimmer && <BoiteDialogue message='Vous voulez vraiment modifier le statut de cette cellule ?' onDialog={onDialogSup} />}
                     </div>
                 </div>
                             <div className='flex flex-row '>

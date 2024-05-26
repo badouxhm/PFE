@@ -1,46 +1,28 @@
 import React, {useState} from 'react'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
-//import '../styles/LoginForm.css'
-//import UserIcon from '../assets/user-126-16.png'
-//import PasswordIcon from '../assets/password-42-16.png'
+const { jwtDecode } = require('jwt-decode');
 
 function LoginForm() {
   const [loginPassword, setLoginPassword] = useState('')
   const [loginEmail, setLoginEmail] = useState('')
   const [MessageIncorrect,setMessageIncorrect] = useState(false)
-  const [Token, setToken] = useState('')
   const navigateTo = useNavigate()  
-
-  // Fonction pour enregistrer le token JWT dans le stockage local
-  const saveTokenToLocalStorage = (Token) => {
-    localStorage.setItem('jwtToken', Token);
-  };
-
-  // Fonction pour récupérer le token JWT depuis le stockage local
-  const getTokenFromLocalStorage = () => {
-    return localStorage.getItem('jwtToken');
-  };
-
-  // Fonction pour supprimer le token JWT du stockage local lors de la déconnexion
-  // const removeTokenFromLocalStorage = () => {
-  //   localStorage.removeItem('jwtToken');
-  // };
 
   const loginUser =(e)=>{
     e.preventDefault();
     axios.post('http://localhost:3002/', {
     Email: loginEmail,
     Password: loginPassword,
-    Authorization: `${getTokenFromLocalStorage()}`,
     },
     )
       .then((response)=>{
-      console.log(response.data)
+
       if(response.data.token){
-         setToken(response.data.token);
-         saveTokenToLocalStorage(response.data.token)
-         console.log("le token" , Token)
+        sessionStorage.setItem('token',response.data.token)
+        const decoded = jwtDecode(response.data.token);
+        sessionStorage.setItem('user',JSON.stringify(decoded))
+        sessionStorage.setItem('role',JSON.stringify(decoded.role))
       }
 
       if (response.data.role === 0){navigateTo('/AdminAccueil')}

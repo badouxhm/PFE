@@ -1,7 +1,7 @@
 import React ,{useState} from 'react'
 import axios from 'axios';
-
-
+import SuccessDialog from './SuccesDialog';
+import { useNavigate } from 'react-router-dom';
 const Add_user = () => {
 
   const [nom, setNom] = useState('');
@@ -11,6 +11,14 @@ const Add_user = () => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const [MessageExist,setMessageExist] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const navigateTo = useNavigate()  
+
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
+    navigateTo('/listeUser')
+  };
 
   const createUser =(e)=>{
     e.preventDefault();
@@ -21,12 +29,16 @@ const Add_user = () => {
       Email : email,
       Password : password,
       Role : role,
-    }).then((resultat)=>{
+    },{headers :{'Authorization':`${sessionStorage.getItem('token')}`}}).then((resultat)=>{
+      if (resultat.data.recu) {
+        setShowSuccessModal(true);
+      }
       if (resultat.data.message){
         console.log(resultat.data)
         setMessageExist(true)
       }
     })
+    
   }
   
   return (
@@ -35,8 +47,8 @@ const Add_user = () => {
       <div className="bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-6 text-center text-red-600">Ajouter un utilisateur</h2>
         <form >
-        <div className={MessageExist ? "" : "hidden"}>
-              <h4 className='bg-red-600 text-white mx-10 rounded-lg text-center'>E-mail deja existant !</h4>
+        <div className={MessageExist ? "h-10" : "hidden h-10"}>
+              <h4 className='bg-red-600 mx-10 text-white  rounded-lg text-center text-xl'>Utilisateur deja existant !</h4>
             </div>
           <div className="mb-4">
             <label htmlFor="nom" className="block text-sm font-medium text-gray-600">
@@ -120,6 +132,7 @@ const Add_user = () => {
               onChange={(e)=>{setRole(e.target.value)}}
             >
               <option value=""  >Sélectionnez le rôle</option>
+              <option value="0">Administrateur</option>
               <option value="1">Éditeur</option>
               <option value="2">Viewer</option>
             </select>
@@ -135,6 +148,12 @@ const Add_user = () => {
             </button>
           </div>
         </form>
+        {showSuccessModal && (
+            <SuccessDialog
+              message="Utilisateur ajouté avec succès !"
+              onClose={handleCloseSuccessModal}
+            />
+          )}
       </div>
     </div>
   </div>

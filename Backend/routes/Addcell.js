@@ -1,8 +1,8 @@
 const express = require('express');
 const Router = express.Router();
 const db = require("../db")
-
-Router.post('/addCell',(req,res)=>{
+const { authenticateJWT } = require('../auth');
+Router.post('/addCell/:user',authenticateJWT,(req,res)=>{
     const SUP = req.body.sup;
     const Site_Code = req.body.siteCode;
     const Site_location = req.body.siteLocation;
@@ -25,11 +25,18 @@ Router.post('/addCell',(req,res)=>{
     const NATURE = req.body.nature;
     const CODE = req.body.code;
     
+    const userId = req.params.user;
+
     const sql = `
     INSERT INTO sites (SUP, Site_Code, Site_location, Cell_CI, Cell_Name, CI_DEC, CI_HEX, LAC, LAC_HEX, Technologie, BSC_OMC, BSC, Site_Status, X, Y, COMMUNE, code_commune, ID, WILAYA, NATURE, CODE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     const valeurs = [SUP, Site_Code, Site_location, Cell_CI, Cell_Name, CI_DEC, CI_HEX, LAC, LAC_HEX, Technologie, BSC_OMC, BSC, Site_Status, X, Y, COMMUNE, code_commune, ID, WILAYA, NATURE, CODE];
 
     const sqlVerification = 'SELECT * FROM sites WHERE id = ?'
+    const sqlHistorique = 'INSERT INTO historique(id_c,date_event,id,type_event) VALUES (?,?,?,?)'
+    
+    const dateActuelle = new Date();
+    const datetimeMySQL = dateActuelle.toISOString().slice(0, 19).replace('T', ' ');
+    const valuesHistorique = [null,datetimeMySQL,userId,1]
 
     db.query(sqlVerification,ID,(err,resultat) => {
         if(err){
@@ -49,11 +56,22 @@ Router.post('/addCell',(req,res)=>{
                     
                     else {
                         console.log(`utilisateur ajouté à la BDD `);
-
+                        db.query(sqlHistorique, valuesHistorique, (err, resultat) => {
+                            if (err) {
+                                console.error('Erreur lors de l\'insertion dans la base de données :', err);
+                                res.status(500).send('Erreur lors de l\'insertion dans la base de données');
+                            } 
+                            
+                            else {
+                                console.log(`evénement ajouté à la BDD `);
+                                res.send ({recu: true})
+                            }
+                        });
                     }
                 });
             }
         }
+        
     });
 })
 

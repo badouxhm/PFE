@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RiUserAddLine } from "react-icons/ri";
+import { GoPencil } from "react-icons/go";
+import { RiUserForbidLine } from "react-icons/ri";
 // import { FaFilter } from "react-icons/fa";
 
 import BoiteDialogue from '../composants/boiteDialogue';
@@ -17,7 +19,7 @@ const Liste = () => {
         if(rechercheKey){
             console.log("recherche declanché")
             console.log(rechercheKey)
-            axios.get(`http://localhost:3002/listeUser/${rechercheKey}`)
+            axios.get(`http://localhost:3002/listeUser/${rechercheKey}`,{headers :{'Authorization': `${sessionStorage.getItem('token')}`}})
             .then((res)=>{
                 console.log(res.data);
                 setData(res.data)
@@ -33,7 +35,7 @@ const Liste = () => {
     useEffect(() => {
         if (deleted) {
             setDeleted(false)
-            axios.get('http://localhost:3002/listeUser')
+            axios.get('http://localhost:3002/listeUser',{headers :{'Authorization': `${sessionStorage.getItem('token')}`}})
                 .then((res) => {
                     setInitialData(res.data);
                     setData(res.data)
@@ -46,13 +48,16 @@ const Liste = () => {
     
     
     const deleteUser = (id) => {
-        console.log("deleteUser est declanché")
+        console.log("deleteUser est déclenché");
         setDeleted(true);
-        axios.post(`http://localhost:3002/listeUser/${id}`)
-            .catch((error) => {
-                console.error('Error deleting user:', error);
-            });
-    }; 
+        axios.delete(
+            `http://localhost:3002/listeUser/${id}`,{headers :{'Authorization': `${sessionStorage.getItem('token')}`}}
+        ).catch((error) => {
+            console.error('Error deleting user:', error);
+        });
+    };
+    
+        
     const handleSupprimer = (id)=>{
         setDialogue(true)
         setDeletedId(id)
@@ -124,13 +129,19 @@ const Liste = () => {
                                                     <td className="px-6 py-4 ">  {item.role === 0 ? "admin" : item.role === 1 ? "editeur" : item.role === 2 ? "viewer" : ""}</td>
                                                     <td className="px-6 py-4 ">{item.status === 0 ? "Desactivé" : item.status === 1 ? "Activé" : ""}</td>
                                                     <td className="px-6 py-4 ">
+                                                    <div className='flex flex-row'>
                                                         <button
-                                                        className="text-red-600 hover:text-red-900"
-                                                        onClick={()=>handleSupprimer(item.id)}
+                                                            className="text-xl mx-2 text-red-600 hover:text-red-900"
+                                                            onClick={() => handleSupprimer(item.id)}
                                                         >
-                                                        Change status
+                                                            <RiUserForbidLine />
                                                         </button>
+                                                        <a href={`/updateUser/${item.id}`} className="text-xl mx-2 text-red-600 hover:text-red-900">
+                                                            <GoPencil />
+                                                        </a>
+                                                    </div>
                                                     </td>
+
                                                 </tr>
                                             ))
                                         )} 

@@ -1,15 +1,13 @@
 import React from 'react'
-import NavBar from '../composants/NavBar';
 import LoginForm from '../composants/LoginForm';
 import Footer from '../composants/Footer';
+import NavBarVide from '../navBars/navBarVide';
 
 function PageConnexion() {
-  const liens =[
 
-  ]
   return (
     <div>
-        <NavBar links={liens}/>
+        <NavBarVide />
         <LoginForm />
         <Footer />
     </div>

@@ -1,0 +1,113 @@
+/* FileUpload.css */
+.file-btn {
+  width: 330px;
+  height: 150px;
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  color: #5d4dcc;
+  background-color: #fff;
+  border: 1.5px dashed #5d4dcc;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-btn:hover {
+  color: #5d4dcc;
+  background-color: #fff;
+}
+
+.file-btn span {
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  color: #5d4dcc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  background-color: #f1efff;
+}
+
+.file-card {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid rgba(117, 96, 255, 0.281);
+  border-radius: 6px;
+  padding: 8px 15px;
+}
+
+.file-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.file-info h6 {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.progress-bg {
+  width: 100%;
+  height: 5px;
+  background-color: rgba(0, 0, 0, 0.076);
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.progress {
+  width: 0%;
+  height: 5px;
+  background-color: #5d4dcc;
+  border-radius: 8px;
+  transition: width 0.5s ease;
+}
+
+.icon {
+  font-size: 30px;
+  color: #7460ff;
+}
+
+.close-icon {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.file-info button,
+.check-circle {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #463a99;
+  background-color: #f1efff;
+  border: none;
+  border-radius: 30px;
+}
+
+.upload-btn {
+  width: 330px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #7460ff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+}

@@ -1,5 +1,7 @@
 import React from 'react'
 
+const userinfo = JSON.parse(sessionStorage.getItem('user'))
+console.log(userinfo)
 const utilisateur = {
     firstName: 'Hamchaoui',
     lastName: 'Badreddine',
@@ -21,13 +23,13 @@ const user = () => {
           alt={`${utilisateur.firstName} ${utilisateur.lastName}`}
         />
         <h2 className="text-2xl mb-4">
-          <b>Nom :</b>  {utilisateur.lastName}
+          <b>Nom :</b>  {userinfo.nom}
         </h2>
         <h2 className="text-2xl  mb-4">
-          <b>Prénom :</b>  {utilisateur.firstName}
+          <b>Prénom :</b>  {userinfo.prenom}
         </h2>
-        <p className="text-gray-500 mb-2"><b>Role : </b>{utilisateur.role}</p>
-        <p className="text-gray-500 mb-4"><b>E-mail : </b>{utilisateur.email}</p>
+        <p className="text-gray-500 mb-2"><b>Role : </b>{userinfo.role === 0 ? 'admin' : userinfo.role === 1 ? 'editeur' : userinfo.role === 2 ? 'viewer' : ''}</p>
+        <p className="text-gray-500 mb-4"><b>E-mail : </b>{userinfo.email}</p>
 
       </div>
     </div>

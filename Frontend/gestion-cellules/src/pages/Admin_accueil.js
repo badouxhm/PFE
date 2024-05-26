@@ -1,20 +1,16 @@
 /* eslint-disable react/jsx-pascal-case */
 import React from 'react'
-import NavBar_tailwind from '../composants/NavBar.jsx';
+import NavBarAdmin from '../navBars/navBarAdmin.js';
 import Footer from '../composants/Footer.js';
 
 
 const Admin_accueil = () => {
 
-    const liens =[
-        {name: 'Home' , lien:'/'},
-        {name: 'Users' , lien:'/listeUser'},
-        {name: 'Cellules' , lien:'/'},
-      ]
+
 
   return (
     <div>
-      <NavBar_tailwind links={liens}/>
+      <NavBarAdmin />
       <Footer/>
     </div>
   )
