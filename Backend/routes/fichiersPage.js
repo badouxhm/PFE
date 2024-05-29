@@ -8,16 +8,9 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 Router.post('/FichiersPage',authenticateJWT, upload.single('file')   , (req, res) => {
-    if (!req.file) {
-        return res.status(400).send('No file uploaded.');
-    }
 
     const { nom, date_modification } = req.body;
-
-    // Vérifiez que `nom` et `date_modification` existent
-    if (!nom || !date_modification) {
-        return res.status(400).send('Nom or date_modification is missing.');
-    }
+    console.log(req.body)
 
     const dateAjout = new Date();
     const dateModificationFormatted = new Date(date_modification).toISOString().slice(0, 19).replace('T', ' ');
@@ -47,7 +40,7 @@ Router.post('/FichiersPage',authenticateJWT, upload.single('file')   , (req, res
             })
             .fromString(req.file.buffer.toString())
             .then((jsonObj) => {
-                const batchSize = 1000; // Nombre de lignes à insérer par batch
+                const batchSize = 10000;
                 const batches = [];
 
                 for (let i = 0; i < jsonObj.length; i += batchSize) {

@@ -25,7 +25,7 @@ const MapPage = () => {
             }
         };
 
-        fetchData();
+        fetchData(); 
     }, []);
 
     const position = [36.7372, 3.0877];

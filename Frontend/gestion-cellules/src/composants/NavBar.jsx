@@ -6,8 +6,6 @@ import Button_icon from '../helpers/Button_icon'
 
 const NavBar = (props) => {
 
-  console.log(props)
-  
   let [open,setOpen] = useState(false);
 
   return (

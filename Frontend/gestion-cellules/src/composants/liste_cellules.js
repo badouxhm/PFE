@@ -100,6 +100,8 @@ const ListeCellules = () => {
         wilaya: true,
         nature: true,
         code: true,
+        status: true,
+        action: true,
     });
 
     const handleToggleColonne = (nomColonne) => {
@@ -173,10 +175,10 @@ const ListeCellules = () => {
                             </div>
                         </button>
                     </a>
-                    <div>
+                    <div >
                         <button
                             id="dropdownCheckboxButton"
-                            className="text-white bg-red-700 hover:bg-red-800  focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700 "
+                            className="text-white mr-16 bg-red-700 hover:bg-red-800  focus:outline-none focus:ring-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700 "
                             onClick={toggleListe}
                             type="button"
                         >
@@ -221,14 +223,12 @@ const ListeCellules = () => {
                 <div className="bg-gray-100 flex justify-start overflow-x-scroll">
                     <div className="container">
                         <div className='w-0'>
-                            <table className="w-full border-collapse mt-20 m-5 rounded-lg shadow-md overflow-hidden ">
+                            <table className="w-screen border-collapse mt-20 m-5 rounded-lg shadow-md overflow-hidden ">
                                 <thead className='bg-red-600'>
                                     <tr>
                                         {Object.entries(colonnesVisibles).map(([cle, valeur]) => (
                                             valeur && <th key={cle} className="px-6 py-3 text-center text-xs font-medium text-white uppercase">{cle}</th>
                                         ))}
-                                        <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase">status</th>
-                                        <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase">action</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
@@ -242,7 +242,7 @@ const ListeCellules = () => {
                                                 <td className={`px-6 py-4 ${colonnesVisibles.id_c ? '' : 'hidden'}`}>{item.id_c}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.sup ? '' : 'hidden'}`}>{item.SUP}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.siteCode ? '' : 'hidden'}`}>{item.Site_Code}</td>
-                                                <td className={`px-6 py-4 ${colonnesVisibles.siteLocation ? '' : 'hidden'}`}>{item.Site_Location}</td>
+                                                <td className={`px-6 py-4 ${colonnesVisibles.siteLocation ? '' : 'hidden'}`}>{item.Site_location}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.cellCi ? '' : 'hidden'}`}>{item.Cell_CI}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.cellName ? '' : 'hidden'}`}>{item.Cell_Name}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.ciDec ? '' : 'hidden'}`}>{item.CI_DEC}</td>
@@ -261,9 +261,9 @@ const ListeCellules = () => {
                                                 <td className={`px-6 py-4 ${colonnesVisibles.wilaya ? '' : 'hidden'}`}>{item.WILAYA}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.nature ? '' : 'hidden'}`}>{item.NATURE}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.code ? '' : 'hidden'}`}>{item.CODE}</td>
-                                                <td className={`px-6 py-4 ${colonnesVisibles.code ? '' : 'hidden'}`}>{item.status === 0 ? "Desactivé" : item.status === 1 ? "Activé" : ""}</td>
-                                                <td className="px-6 py-4">
-                                                    <div className='flex flex-row'>
+                                                <td className={`px-6 py-4 ${colonnesVisibles.status ? '' : 'hidden'}`}>{item.status === 0 ? "Desactivé" : item.status === 1 ? "Activé" : ""}</td>
+                                                <td className="px-6 py-4 ">
+                                                    <div className={`px-6 py-4 flex flex-row ${colonnesVisibles.action ? '' : 'hidden'}`}>
                                                         <button
                                                             className="text-xl mx-2 text-red-600 hover:text-red-900"
                                                             onClick={() => handleSupprimer(item.id_c)}
