@@ -1,18 +1,22 @@
 const express = require('express');
 const Router = express.Router();
 const db = require ("../db")
-const { authenticateJWT } = require('../auth');
+const { authenticateJWT , hashPassword} = require('../auth');
 
 Router.post('/addUser',authenticateJWT,(req,res)=>{
+    const matricule = req.body.Matricule;
     const nom = req.body.Nom;
     const prenom = req.body.Prenom;
     const date_naissance = req.body.Date_naissance;
     const email = req.body.Email;
+    const tel = req.body.Tel;
     const password = req.body.Password;
+    const passwordHashed = hashPassword(password);
     const role = req.body.Role;
+    const poste = req.body.Poste;
     
-    const sql = 'INSERT INTO users (nom,prenom,email,password,date_naissance,role) VALUES (?,?,?,?,?,?)';
-    const valeurs = [nom,prenom,email,password,date_naissance,role];
+    const sql = 'INSERT INTO users (matricule,nom,prenom,email,tel,password,date_naissance,role,poste) VALUES (?,?,?,?,?,?,?,?,?)';
+    const valeurs = [matricule,nom,prenom,email,tel,passwordHashed,date_naissance,role,poste];
 
     const sqlVerification = 'SELECT * FROM users WHERE email = ?'
 

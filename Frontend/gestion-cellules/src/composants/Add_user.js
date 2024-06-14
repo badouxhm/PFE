@@ -4,12 +4,15 @@ import SuccessDialog from './SuccesDialog';
 import { useNavigate } from 'react-router-dom';
 const Add_user = () => {
 
+  const [matricule, setMatricule] = useState('');
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
   const [date_naissance, setDate_naissance] = useState('');
   const [email, setEmail] = useState('');
+  const [tel, setTel] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
+  const [poste, setPoste] = useState('');
   const [MessageExist,setMessageExist] = useState(false)
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -23,12 +26,15 @@ const Add_user = () => {
   const createUser =(e)=>{
     e.preventDefault();
     axios.post('http://localhost:3002/addUser',{
+      Matricule : matricule,
       Nom : nom,
       Prenom : prenom,
       Date_naissance : date_naissance,
       Email : email,
+      Tel : tel,
       Password : password,
       Role : role,
+      Poste : poste
     },{headers :{'Authorization':`${sessionStorage.getItem('token')}`}}).then((resultat)=>{
       if (resultat.data.recu) {
         setShowSuccessModal(true);
@@ -50,6 +56,19 @@ const Add_user = () => {
         <div className={MessageExist ? "h-10" : "hidden h-10"}>
               <h4 className='bg-red-600 mx-10 text-white  rounded-lg text-center text-xl'>Utilisateur deja existant !</h4>
             </div>
+          <div className="mb-4">
+            <label htmlFor="Matricule" className="block text-sm font-medium text-gray-600">
+            Matricule
+            </label>
+            <input
+              type="Matricule"
+              id="Matricule"
+              name="Matricule"
+              required
+              className="mt-1 p-2 w-full border rounded-md"
+              onChange={(e)=>{setMatricule(e.target.value)}}
+            />
+          </div>
           <div className="mb-4">
             <label htmlFor="nom" className="block text-sm font-medium text-gray-600">
               Nom
@@ -105,6 +124,19 @@ const Add_user = () => {
               onChange={(e)=>{setEmail(e.target.value)}}
             />
           </div>
+          <div className="mb-4">
+            <label htmlFor="tel" className="block text-sm font-medium text-gray-600">
+              N° Tel
+            </label>
+            <input
+              type="tel"
+              id="tel"
+              name="tel"
+              required
+              className="mt-1 p-2 w-full border rounded-md"
+              onChange={(e)=>{setTel(e.target.value)}}
+            />
+          </div>
 
           <div className="mb-4">
             <label htmlFor="password" className="block text-sm font-medium text-gray-600">
@@ -136,6 +168,19 @@ const Add_user = () => {
               <option value="1">Éditeur</option>
               <option value="2">Viewer</option>
             </select>
+          </div>
+          <div className="mb-4">
+            <label htmlFor="Poste" className="block text-sm font-medium text-gray-600">
+              Poste
+            </label>
+            <input
+              type="poste"
+              id="poste"
+              name="poste"
+              required
+              className="mt-1 p-2 w-full border rounded-md"
+              onChange={(e)=>{setPoste(e.target.value)}}
+            />
           </div>
 
           <div className="flex justify-center">

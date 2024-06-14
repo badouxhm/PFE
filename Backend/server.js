@@ -11,12 +11,14 @@ const cellulePageRouter = require('./routes/cellulesPage')
 const connexionRouter = require('./routes/connexion')
 const historiqueRouter = require('./routes/historique')
 const mapRouter = require('./routes/map')
+const ChartRouter = require('./routes/charts')
 const {authenticateJWT} = require('./auth')
 app.use(express.json())
 app.use(cors())
 app.listen(3002,(req,res)=>{
     console.log('le serveur est sur le port 3002 !');
 })
+
 app.use("/", connexionRouter);
 app.use("/", addUserRouter);
 app.use("/", ListeUserRouter);
@@ -25,4 +27,5 @@ app.use("/", fichiersPageRouter);
 app.use("/", cellulePageRouter);
 app.use("/", historiqueRouter);
 app.use("/", mapRouter);
+app.use("/", ChartRouter);
 app.use("/", updateUserRouter);

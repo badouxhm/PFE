@@ -5,8 +5,8 @@ const bcrypt = require('bcrypt');
 const { jwtSecret } = require('./config'); // Assurez-vous d'avoir ce fichier avec votre clé secrète JWT
 
 // Fonction pour générer un token JWT
-const generateToken = (id,nom,prenom,email,password,role) => {
-    return jwt.sign({id:id , nom:nom ,prenom:prenom, email:email ,nom:nom, password:password,role:role}, jwtSecret, { expiresIn: '1h' });
+const generateToken = (id,matricule,nom,prenom,email,tel,role,poste) => {
+    return jwt.sign({id:id ,matricule:matricule, nom:nom ,prenom:prenom, email:email ,tel:tel,nom:nom,role:role,poste:poste}, jwtSecret, { expiresIn: '1d' });
 };
 
 // Middleware pour protéger les routes avec JWT

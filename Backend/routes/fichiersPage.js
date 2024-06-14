@@ -7,11 +7,8 @@ const { authenticateJWT } = require('../auth');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-Router.post('/FichiersPage',authenticateJWT, upload.single('file')   , (req, res) => {
-
+Router.post('/FichiersPage', authenticateJWT, upload.single('file'), (req, res) => {
     const { nom, date_modification } = req.body;
-    console.log(req.body)
-
     const dateAjout = new Date();
     const dateModificationFormatted = new Date(date_modification).toISOString().slice(0, 19).replace('T', ' ');
     const dateAjoutFormatted = dateAjout.toISOString().slice(0, 19).replace('T', ' ');
@@ -40,8 +37,11 @@ Router.post('/FichiersPage',authenticateJWT, upload.single('file')   , (req, res
             })
             .fromString(req.file.buffer.toString())
             .then((jsonObj) => {
-                const batchSize = 10000;
+                const  ids = jsonObj.map(element => element.ID);
+
+                const updateSql = 'UPDATE sites SET status = 0 WHERE ID IN (?)';
                 const batches = [];
+                const batchSize = 10000;
 
                 for (let i = 0; i < jsonObj.length; i += batchSize) {
                     const batch = jsonObj.slice(i, i + batchSize).map(element => {
@@ -51,39 +51,51 @@ Router.post('/FichiersPage',authenticateJWT, upload.single('file')   , (req, res
                     batches.push(batch);
                 }
 
-                const insertPromises = batches.map(batch => {
-                    const sql = 'INSERT INTO `sites` (`SUP`, `Site_Code`, `Site_Location`, `Cell_CI`, `Cell_Name`, `CI_DEC`, `CI_HEX`, `LAC`, `LAC_HEX`, `Technologie`, `BSC_OMC`, `BSC`, `Site_Status`, `X`, `Y`, `COMMUNE`, `code_commune`, `ID`, `WILAYA`, `NATURE`, `CODE`) VALUES ?';
-                    return new Promise((resolve, reject) => {
-                        db.query(sql, [batch], (err, resultat) => {
-                            if (err) {
-                                console.error('Error inserting batch:', err);
-                                reject(err);
-                            } else {
-                                resolve(resultat);
-                            }
+                new Promise((resolve, reject) => {
+                    db.query(updateSql, [ids], (err, result) => {
+                        if (err) {
+                            console.error('Error updating status:', err);
+                            reject(err);
+                        } else {
+                            resolve(result);
+                        }
+                    });
+                })
+                .then(() => {
+                    const insertPromises = batches.map(batch => {
+                        const sql = 'INSERT INTO `sites` (`SUP`, `Site_Code`, `Site_Location`, `Cell_CI`, `Cell_Name`, `CI_DEC`, `CI_HEX`, `LAC`, `LAC_HEX`, `Technologie`, `BSC_OMC`, `BSC`, `Site_Status`, `X`, `Y`, `COMMUNE`, `code_commune`, `ID`, `WILAYA`, `NATURE`, `CODE`) VALUES ? ';
+                        return new Promise((resolve, reject) => {
+                            db.query(sql, [batch], (err, result) => {
+                                if (err) {
+                                    console.error('Error inserting batch:', err);
+                                    reject(err);
+                                } else {
+                                    resolve(result);
+                                }
+                            });
                         });
+                    });
+
+                    return Promise.all(insertPromises);
+                })
+                .then(() => {
+                    db.commit((err) => {
+                        if (err) {
+                            console.error('Error committing transaction:', err);
+                            return db.rollback(() => {
+                                res.status(500).send('Error committing transaction');
+                            });
+                        }
+                        console.log("All batches inserted and updated successfully!");
+                        res.json({ message: 'All data inserted and updated successfully' });
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error inserting or updating data:', error);
+                    db.rollback(() => {
+                        res.status(500).send('Error inserting or updating data');
                     });
                 });
-
-                Promise.all(insertPromises)
-                    .then(() => {
-                        db.commit((err) => {
-                            if (err) {
-                                console.error('Error committing transaction:', err);
-                                return db.rollback(() => {
-                                    res.status(500).send('Error committing transaction');
-                                });
-                            }
-                            console.log("All batches inserted successfully!");
-                            res.json({ message: 'All data inserted successfully' });
-                        });
-                    })
-                    .catch((error) => {
-                        console.error('Error inserting data:', error);
-                        db.rollback(() => {
-                            res.status(500).send('Error inserting data');
-                        });
-                    });
             })
             .catch((error) => {
                 console.error('Error converting CSV to JSON', error);
@@ -110,7 +122,7 @@ Router.get('/FichiersPage', (req, res) => {
                 }
             });
             res.json(resultat);
-            console.log(typeof resultat[0].date_ajout)
+            console.log(typeof resultat[0].date_ajout);
             console.log("fichiers ok !");
         }
     });

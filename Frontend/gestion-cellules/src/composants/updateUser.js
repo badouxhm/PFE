@@ -5,12 +5,15 @@ import SuccessDialog from './SuccesDialog';
 import BoiteDialogue from './boiteDialogue';
 
 const UpdateUser = () => {
+  const [matricule, setMatricule] = useState('');
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
   const [date_naissance, setDate_naissance] = useState('');
   const [email, setEmail] = useState('');
+  const [tel, setTel] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
+  const [poste, setPoste] = useState('');
   const [messageExist, setMessageExist] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [dialogue, setDialogue] = useState(false);
@@ -37,13 +40,16 @@ const UpdateUser = () => {
         });
         const data = response.data;
         if (Array.isArray(data) && data.length > 0) {
-            const user = data[0];  // Assuming the result is an array and we need the first element
+            const user = data[0];
+            setMatricule(user.matricule)
             setNom(user.nom);
             setPrenom(user.prenom);
             setDate_naissance(user.date_naissance.split("T")[0]);
             setEmail(user.email);
+            setTel(user.tel)
             setPassword(user.password);
             setRole(user.role);
+            setPoste(user.poste);
         } else {
             console.error('No user data found');
         }
@@ -108,6 +114,18 @@ const UpdateUser = () => {
           </div>
           <form onSubmit={handleFormSubmit}>
             <div className="mb-4">
+              <label htmlFor="matricule" className="block text-sm font-medium text-gray-600">Matricule</label>
+              <input
+                type="text"
+                id="matricule"
+                name="matricule"
+                required
+                className="mt-1 p-2 w-full border rounded-md"
+                value={matricule}
+                onChange={(e) => setMatricule(e.target.value)}
+              />
+            </div>
+            <div className="mb-4">
               <label htmlFor="nom" className="block text-sm font-medium text-gray-600">Nom</label>
               <input
                 type="text"
@@ -156,6 +174,19 @@ const UpdateUser = () => {
               />
             </div>
             <div className="mb-4">
+              <label htmlFor="tel" className="block text-sm font-medium text-gray-600">N° Tel</label>
+              <input
+                type="text"
+                id="tel"
+                name="tel"
+                required
+                className="mt-1 p-2 w-full border rounded-md"
+                value={tel}
+                onChange={(e) => setTel(e.target.value)}
+              />
+            </div>
+            
+            <div className="mb-4">
               <label htmlFor="password" className="block text-sm font-medium text-gray-600">Mot de passe</label>
               <input
                 type="password"
@@ -163,7 +194,6 @@ const UpdateUser = () => {
                 name="password"
                 required
                 className="mt-1 p-2 w-full border rounded-md"
-                value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
@@ -182,6 +212,18 @@ const UpdateUser = () => {
                 <option value="1">Éditeur</option>
                 <option value="2">Viewer</option>
               </select>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="tel" className="block text-sm font-medium text-gray-600">Poste</label>
+              <input
+                type="text"
+                id="poste"
+                name="poste"
+                required
+                className="mt-1 p-2 w-full border rounded-md"
+                value={poste}
+                onChange={(e) => setPoste(e.target.value)}
+              />
             </div>
             <div className="flex justify-center">
               <button

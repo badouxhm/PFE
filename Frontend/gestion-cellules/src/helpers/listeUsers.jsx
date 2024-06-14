@@ -95,6 +95,9 @@ const Liste = () => {
                             ID
                             </th>
                             <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-white uppercase">
+                            matricule
+                            </th>
+                            <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-white uppercase">
                             Nom
                             </th>
                             <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-white uppercase">
@@ -104,7 +107,13 @@ const Liste = () => {
                             Email
                             </th>
                             <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-white uppercase">
+                            N° Tel
+                            </th>
+                            <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-white uppercase">
                             Role
+                            </th> 
+                            <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-white uppercase">
+                            poste
                             </th> 
                             <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-white uppercase">
                             Status
@@ -123,10 +132,13 @@ const Liste = () => {
                                             data.map((item) => (
                                                 <tr key={item.id}>
                                                     <td className="px-6 py-4 ">{item.id}</td>
+                                                    <td className="px-6 py-4 ">{item.matricule}</td>
                                                     <td className="px-6 py-4 ">{item.nom}</td>
                                                     <td className="px-6 py-4 ">{item.prenom}</td>
                                                     <td className="px-6 py-4 ">{item.email}</td>
+                                                    <td className="px-6 py-4 ">{item.tel}</td>
                                                     <td className="px-6 py-4 ">  {item.role === 0 ? "admin" : item.role === 1 ? "editeur" : item.role === 2 ? "viewer" : ""}</td>
+                                                    <td className="px-6 py-4 ">{item.poste}</td>
                                                     <td className="px-6 py-4 ">{item.status === 0 ? "Desactivé" : item.status === 1 ? "Activé" : ""}</td>
                                                     <td className="px-6 py-4 ">
                                                     <div className='flex flex-row'>

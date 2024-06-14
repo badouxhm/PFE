@@ -27,8 +27,8 @@ Router.delete('/listeUser/:id',authenticateJWT,(req,res)=>{
 })
 Router.get('/listeUser/:value',authenticateJWT, (req, res) => {
     const rechercheKey = '%'+req.params.value+'%'
-    const value = [rechercheKey, rechercheKey, rechercheKey, rechercheKey];
-    const sql = 'SELECT * FROM users WHERE id LIKE ? OR nom LIKE ? OR prenom LIKE ? OR email LIKE ?'
+    const value = [rechercheKey, rechercheKey, rechercheKey, rechercheKey, rechercheKey, rechercheKey, rechercheKey];
+    const sql = 'SELECT * FROM users WHERE id LIKE ? OR nom LIKE ? OR prenom LIKE ? OR email LIKE ? OR matricule LIKE ? OR poste LIKE ? OR tel LIKE ?'
     db.query(sql, value, (err, resultat) => {
         if (err) {
             res.send({ error: err });
