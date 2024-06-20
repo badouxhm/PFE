@@ -3,7 +3,7 @@ import NavBar from '../composants/NavBar'
 
 const NavBarviewer = () => {
     const liens =[
-        {name: 'Home' , lien:'/viewerAccueil'},
+        {name: 'Accueil' , lien:'/viewerAccueil'},
         {name: 'Cellules' , lien:'/cellulesViewer'},
         {name: 'Map' , lien:'/map'},
       ]

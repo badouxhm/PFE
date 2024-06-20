@@ -3,11 +3,10 @@ import NavBar from '../composants/NavBar'
 
 const navBarAdmin = () => {
     const liens =[
-        {name: 'Home' , lien:'/AdminAccueil'},
-        {name: 'Users' , lien:'/listeUser'},
-        {name: 'Cellules' , lien:'/cellulesPage'},
+        {name: 'Accueil' , lien:'/AdminAccueil'},
+        {name: 'Utilisateurs' , lien:'/listeUser'},
+        {name: 'Cellules' , lien:'/cellulesViewer'},
         {name: 'Historique' , lien:'/historique'},
-        {name: 'Fichier' , lien:'/fichiersPage'},
         {name: 'Map' , lien:'/map'},
       ]
   return (

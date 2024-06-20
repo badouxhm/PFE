@@ -52,7 +52,7 @@ const UpdateCell = () => {
             // Populate state with fetched data
             setSup(data.SUP);
             setSiteCode(data.Site_Code);
-            setSiteLocation(data.Site_Location);
+            setSiteLocation(data.Site_location);
             setCellCi(data.Cell_CI);
             setCellName(data.Cell_Name);
             setCiDec(data.CI_DEC);

@@ -136,7 +136,7 @@ const Liste = () => {
                                                     <td className="px-6 py-4 ">{item.nom}</td>
                                                     <td className="px-6 py-4 ">{item.prenom}</td>
                                                     <td className="px-6 py-4 ">{item.email}</td>
-                                                    <td className="px-6 py-4 ">{item.tel}</td>
+                                                    <td className="px-6 py-4 ">+213 {item.tel}</td>
                                                     <td className="px-6 py-4 ">  {item.role === 0 ? "admin" : item.role === 1 ? "editeur" : item.role === 2 ? "viewer" : ""}</td>
                                                     <td className="px-6 py-4 ">{item.poste}</td>
                                                     <td className="px-6 py-4 ">{item.status === 0 ? "Desactivé" : item.status === 1 ? "Activé" : ""}</td>

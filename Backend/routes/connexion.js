@@ -35,6 +35,8 @@ Router.post('/',(req,res)=>{
                 res.send({message: 'Mot de passe incorrect'})
             }
         }else{
+            console.log('Email incorrect')
+                res.send({message: 'Mot de passe incorrect'})
         }
     });
 })

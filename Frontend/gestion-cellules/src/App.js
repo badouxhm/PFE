@@ -43,12 +43,12 @@ function App() {
             </ProtectedRoute>  
           }/>
         <Route path="/cellulesPage" element={
-            <ProtectedRoute  allowedRoles={['admin','editeur','viewer']}>
+            <ProtectedRoute  allowedRoles={['editeur']}>
               <CellulesPage/>
             </ProtectedRoute>
           }/>
         <Route path="/cellulesViewer" element={
-            <ProtectedRoute  allowedRoles={['viewer']}>
+            <ProtectedRoute  allowedRoles={['viewer','admin']}>
               <CellulesViewer/>
             </ProtectedRoute>
           }/>
@@ -63,7 +63,7 @@ function App() {
               </ProtectedRoute>  
           }/>
         <Route path="/FichiersPage" element={
-            <ProtectedRoute allowedRoles={['admin','editeur']}>
+            <ProtectedRoute allowedRoles={['editeur']}>
               <FichiersPage/>
             </ProtectedRoute>    
           }/>

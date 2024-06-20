@@ -8,7 +8,7 @@ import MapAcc from '../pages/mapAcc';
 
 Chart.register(ArcElement, Tooltip, Legend, CategoryScale, BarElement, LinearScale);
 
-const ChartT = () => {
+const  ChartT = () => {
   const [dataT, setDataT] = useState([]);
   const [dataS, setDataS] = useState([]);
   const [dataStatus, setDataStatus] = useState([]);
@@ -124,18 +124,18 @@ const ChartT = () => {
   return (
     <div className="container mx-auto mt-32">
       {/* Nouvelle ligne pour le texte */}
-      <div className="mt-8 bg-slate-100 rounded-lg p-4 text-center mb-4">
+      <div className="mt-8 rounded-lg p-4 text-center mb-4">
         <b className="text-3xl text-red-500">
           Le nombre total des Cellules : {nombreCells[0].NombreCells}
         </b>
       </div>
       {/* Première section avec la carte et les trois Pie charts */}
       <div className="flex flex-wrap gap-4">
-        <div className="flex-1 min-w-full lg:min-w-0 lg:w-1/2 bg-slate-100 rounded-lg p-4">
+        <div className="flex-1 min-w-full lg:min-w-0 lg:w-1/2  rounded-lg p-4">
           <MapAcc />
         </div>
         <div className="flex flex-col lg:flex-row flex-1 gap-4">
-          <div className="bg-slate-100 rounded-lg p-4 flex-1">
+          <div className=" rounded-lg p-4 flex-1">
             <h1 className="text-center text-red-500 text-2xl mb-4">Technologie de Cellule</h1>
             {dataT.length > 0 ? (
               <Pie data={chartDataT} />
@@ -143,7 +143,7 @@ const ChartT = () => {
               <p>Chargement...</p>
             )}
           </div>
-          <div className="bg-slate-100 rounded-lg p-4 flex-1">
+          <div className="rounded-lg p-4 flex-1">
             <h1 className="text-center text-red-500 text-2xl mb-4">Fournisseur de Cellule</h1>
             {dataS.length > 0 ? (
               <Pie data={chartDataS} />
@@ -155,7 +155,7 @@ const ChartT = () => {
       </div>
       
       {/* Deuxième section avec le Bar chart */}
-      <div className="mt-8 bg-slate-100 rounded-lg p-4 mb-4">
+      <div className="mt-8 rounded-lg p-4 mb-4">
         <h1 className="text-center text-red-500 text-2xl mb-4">Nombre de Cellules par Wilaya</h1>
         {Wilaya.length > 0 ? (
           <Bar data={barData} />
