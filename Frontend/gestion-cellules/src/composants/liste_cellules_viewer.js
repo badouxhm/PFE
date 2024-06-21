@@ -139,7 +139,6 @@ const ListeCellules = () => {
             <div className='flex flex-col mt-10 p-28 px-2 bg-gray-100'>
                 <div className='flex flex-row '>
                     <BarreRecherche value={rechercheKey} setValue={setRechercheKey}/>
-                    
                     <div>
                         <button
                             id="dropdownCheckboxButton"
@@ -209,7 +208,7 @@ const ListeCellules = () => {
                                                 <td className={`px-6 py-4 ${colonnesVisibles.id_c ? '' : 'hidden'}`}>{item.id_c}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.sup ? '' : 'hidden'}`}>{item.SUP}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.siteCode ? '' : 'hidden'}`}>{item.Site_Code}</td>
-                                                <td className={`px-6 py-4 ${colonnesVisibles.siteLocation ? '' : 'hidden'}`}>{item.Site_Location}</td>
+                                                <td className={`px-6 py-4 ${colonnesVisibles.siteLocation ? '' : 'hidden'}`}>{item.Site_location}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.cellCi ? '' : 'hidden'}`}>{item.Cell_CI}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.cellName ? '' : 'hidden'}`}>{item.Cell_Name}</td>
                                                 <td className={`px-6 py-4 ${colonnesVisibles.ciDec ? '' : 'hidden'}`}>{item.CI_DEC}</td>
@@ -234,8 +233,6 @@ const ListeCellules = () => {
                                     )}
                                 </tbody>
                             </table>
-                            
-
                         </div>
                     </div>
                 </div>

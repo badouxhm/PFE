@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import SuccessDialog from './SuccesDialog';
+import SuccessDialog from './boiteDialogue';
 import { useNavigate } from 'react-router-dom';
 
 const Add_cell = () => {
@@ -27,18 +27,28 @@ const Add_cell = () => {
     const [nature, setNature] = useState('');
     const [code, setCode] = useState('');
     const [MessageExist,setMessageExist] = useState(false)
-    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [dialogue, setDialogue] = useState(false);
 
     const navigateTo = useNavigate()  
 
-    const handleCloseSuccessModal = () => {
-        setShowSuccessModal(false);
-        navigateTo('/cellulesPage')
-      };
-      const userinfo = JSON.parse(sessionStorage.getItem('user'))
-      const userId = userinfo.id
-  const createCell =(e)=>{
-    e.preventDefault();
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        setDialogue(true);
+    };
+
+    const handleCloseSuccessModal = (choix) => {
+        setDialogue(false);
+        if (choix) {
+            createCell();
+        }
+        navigateTo('/cellulesPage');
+    };
+    const userinfo = JSON.parse(sessionStorage.getItem('user'))
+    const userId = userinfo.id
+    const createCell =(e)=>{
+        if(e){
+            e.preventDefault();
+        }
     axios.post(`http://localhost:3002/addCell/${userId}`,{
       sup : sup,
       siteCode : siteCode,
@@ -63,9 +73,6 @@ const Add_cell = () => {
       code : code,
     },{headers :{'Authorization': `${sessionStorage.getItem('token')}`}}
     ).then((resultat)=>{
-    if (resultat.data.recu) {
-        setShowSuccessModal(true);
-      }
       if (resultat.data.message){
         console.log(resultat.data)
         setMessageExist(true)
@@ -81,7 +88,7 @@ const Add_cell = () => {
                     <div className= {MessageExist ? "h-10" : "hidden h-10" }>
                       <h4 className='bg-red-600 mx-10 text-white  rounded-lg text-center text-xl'>Cellule deja existante !</h4>
                     </div>
-                    <form >
+                    <form onSubmit={handleFormSubmit}>
                         <div className="mb-4">
                             <label htmlFor="sup" className="block text-sm font-medium text-gray-600">
                                 Sup
@@ -384,16 +391,15 @@ const Add_cell = () => {
                             <button
                                 type="submit"
                                 className="bg-red-600 text-white p-2 rounded-md hover:bg-red-900"
-                                onClick={createCell}
                             >
                                 Valider
                             </button>
                         </div>
                     </form>
-                    {showSuccessModal && (
+                    {dialogue && (
                     <SuccessDialog
-                    message="Cellule ajouté avec succès !"
-                    onClose={handleCloseSuccessModal}
+                    message="Vous voulez vraimment ajouter cette cellule ?"
+                    onDialog={handleCloseSuccessModal}
                     />
                 )}
                 </div>

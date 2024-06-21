@@ -86,7 +86,6 @@ Router.post('/FichiersPage', authenticateJWT, upload.single('file'), (req, res) 
                                 res.status(500).send('Error committing transaction');
                             });
                         }
-                        console.log("All batches inserted and updated successfully!");
                         res.json({ message: 'All data inserted and updated successfully' });
                     });
                 })
@@ -122,8 +121,6 @@ Router.get('/FichiersPage', (req, res) => {
                 }
             });
             res.json(resultat);
-            console.log(typeof resultat[0].date_ajout);
-            console.log("fichiers ok !");
         }
     });
 });

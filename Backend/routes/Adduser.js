@@ -25,9 +25,7 @@ Router.post('/addUser',authenticateJWT,(req,res)=>{
             console.error('Erreur lors de la recuperation de la BDD :', err);
             res.status(500).send('erreur lors de la recuperation de la BDD');
         }else{
-            console.log("verification...")
             if(resultat.length>0){
-                console.log("E-mail existant deja !")
                 res.send({message: 'E-mail deja existant'})
             }else{
                 db.query(sql, valeurs, (err, resultat) => {
@@ -37,7 +35,6 @@ Router.post('/addUser',authenticateJWT,(req,res)=>{
                     } 
                     
                     else {
-                        console.log(`utilisateur ajouté à la BDD`);
                         res.send ({recu: true})
                     }
                 });

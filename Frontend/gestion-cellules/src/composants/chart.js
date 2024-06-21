@@ -11,24 +11,21 @@ Chart.register(ArcElement, Tooltip, Legend, CategoryScale, BarElement, LinearSca
 const  ChartT = () => {
   const [dataT, setDataT] = useState([]);
   const [dataS, setDataS] = useState([]);
-  const [dataStatus, setDataStatus] = useState([]);
   const [nombreCells, setNombreCells] = useState('0');
   const [Wilaya, setWilaya] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [techRes, supRes, statusRes, nombreCellsRes, wilayaRes] = await Promise.all([
+        const [techRes, supRes, nombreCellsRes, wilayaRes] = await Promise.all([
           axios.get('http://localhost:3002/chartTechnologie', { headers: { 'Authorization': `${sessionStorage.getItem('token')}` } }),
           axios.get('http://localhost:3002/chartSup', { headers: { 'Authorization': `${sessionStorage.getItem('token')}` } }),
-          axios.get('http://localhost:3002/chartStatus', { headers: { 'Authorization': `${sessionStorage.getItem('token')}` } }),
           axios.get('http://localhost:3002/NombreCells', { headers: { 'Authorization': `${sessionStorage.getItem('token')}` } }),
           axios.get('http://localhost:3002/Wilaya', { headers: { 'Authorization': `${sessionStorage.getItem('token')}` } }),
         ]);
 
         setDataT(techRes.data);
         setDataS(supRes.data);
-        setDataStatus(statusRes.data);
         setNombreCells(nombreCellsRes.data);
         setWilaya(wilayaRes.data);
       } catch (error) {
@@ -81,25 +78,7 @@ const  ChartT = () => {
     ],
   };
 
-  const chartDataStatus = {
-    labels: ['active', 'inactive'],
-    datasets: [
-      {
-        label: 'Status de Cellules',
-        data: dataStatus.map((item) => item.StatusCells),
-        backgroundColor: [
-          'rgba(187, 45, 12, 1)',
-          'rgba(117, 187, 153, 1)',
-        ],
-        borderColor: [
-          'rgba(255, 0, 0, 0.8)',
-          'rgba(255, 99, 132, 0.8)',
-          'rgba(255, 69, 0, 0.8)'
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
+
 
   const barData = {
     labels: Wilaya.map((item) => item.name),
@@ -123,13 +102,11 @@ const  ChartT = () => {
 
   return (
     <div className="container mx-auto mt-32">
-      {/* Nouvelle ligne pour le texte */}
       <div className="mt-8 rounded-lg p-4 text-center mb-4">
         <b className="text-3xl text-red-500">
           Le nombre total des Cellules : {nombreCells[0].NombreCells}
         </b>
       </div>
-      {/* Première section avec la carte et les trois Pie charts */}
       <div className="flex flex-wrap gap-4">
         <div className="flex-1 min-w-full lg:min-w-0 lg:w-1/2  rounded-lg p-4">
           <MapAcc />
@@ -154,7 +131,6 @@ const  ChartT = () => {
         </div>
       </div>
       
-      {/* Deuxième section avec le Bar chart */}
       <div className="mt-8 rounded-lg p-4 mb-4">
         <h1 className="text-center text-red-500 text-2xl mb-4">Nombre de Cellules par Wilaya</h1>
         {Wilaya.length > 0 ? (

@@ -8,8 +8,6 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import "./map.css";
 import 'leaflet/dist/leaflet.css';
-import GreenIcon from "../assets/epingle-2.png";
-import RedIcon from "../assets/epingle.png";
 import 'react-leaflet-markercluster/dist/styles.min.css';
 
 const MapAcc = () => {
@@ -60,8 +58,6 @@ const MapAcc = () => {
                             </Marker>
                         ))}
                     </MarkerClusterGroup>
-
-
                 </MapContainer>
             </div>
         </>

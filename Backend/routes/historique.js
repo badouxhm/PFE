@@ -9,7 +9,6 @@ Router.get('/historique',authenticateJWT, (req, res) => {
         if (err) {
             res.send({ error: err });
         } else {
-            // Formater chaque date d'événement dans le résultat
             resultat.forEach(event => {
                 const date = new Date(event.date_event);
                 const formattedDate = date.toLocaleString('fr-FR', { timeZone: 'UTC' });
@@ -17,7 +16,6 @@ Router.get('/historique',authenticateJWT, (req, res) => {
             });
 
             res.json(resultat);
-            console.log(resultat);
         }
     });
 });

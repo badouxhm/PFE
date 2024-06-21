@@ -12,7 +12,7 @@ const connexionRouter = require('./routes/connexion')
 const historiqueRouter = require('./routes/historique')
 const mapRouter = require('./routes/map')
 const ChartRouter = require('./routes/charts')
-const {authenticateJWT} = require('./auth')
+
 app.use(express.json())
 app.use(cors())
 app.listen(3002,(req,res)=>{

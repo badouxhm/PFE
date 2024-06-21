@@ -8,9 +8,6 @@ const utilisateur = {
 const user = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
-     
-     
-     
       <div className="bg-white p-8 rounded shadow-md text-center w-1/3 ">
         <img
           className="w-32 h-32 rounded-full mb-4 mx-auto"

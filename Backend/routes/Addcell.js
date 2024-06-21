@@ -43,9 +43,7 @@ Router.post('/addCell/:user',authenticateJWT,(req,res)=>{
             console.error('Erreur lors de la recuperation de la BDD :', err);
             res.status(500).send('erreur lors de la recuperation de la BDD ');
         }else{
-            console.log("verification...")
             if(resultat.length>0){
-                console.log("cellule existante deja !")
                 res.send({message: 'Cellule deja existante'})
             }else{
                 db.query(sql, valeurs, (err, resultat) => {
@@ -55,7 +53,6 @@ Router.post('/addCell/:user',authenticateJWT,(req,res)=>{
                     } 
                     
                     else {
-                        console.log(`utilisateur ajouté à la BDD `);
                         db.query(sqlHistorique, valuesHistorique, (err, resultat) => {
                             if (err) {
                                 console.error('Erreur lors de l\'insertion dans la base de données :', err);
@@ -63,7 +60,6 @@ Router.post('/addCell/:user',authenticateJWT,(req,res)=>{
                             } 
                             
                             else {
-                                console.log(`evénement ajouté à la BDD `);
                                 res.send ({recu: true})
                             }
                         });

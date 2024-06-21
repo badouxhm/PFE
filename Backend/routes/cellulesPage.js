@@ -5,7 +5,7 @@ const { authenticateJWT } = require('../auth');
 
 
 Router.get('/cellulesPage',authenticateJWT,(req,res)=>{
-    console.log(req.headers.authorization)
+
     const sql ='SELECT * FROM sites'
     db.query(sql, (err, resultat) => {
         if (err) {
@@ -17,6 +17,7 @@ Router.get('/cellulesPage',authenticateJWT,(req,res)=>{
     });
 
 })
+
 Router.delete('/cellulesPage/:id/:user',authenticateJWT,(req,res)=>{
     
     const id = req.params.id
@@ -32,21 +33,17 @@ Router.delete('/cellulesPage/:id/:user',authenticateJWT,(req,res)=>{
     db.query(sql,value,(err,resultat)=>{
         if (err)console.log("error :",err)
         else {
-            console.log("supprimer !")
-            console.log(datetimeMySQL)
 
             db.query(sqlHistorique, valuesHistorique, (err, resultat) => {
                 if (err) {
                     console.error('Erreur lors de l\'insertion dans la base de données :', err);
                     res.status(500).send('Erreur lors de l\'insertion dans la base de données');
                 } 
-                else {
-                    console.log(`evénement ajouté à la BDD `);
-                }
             });
         }
     })
 })
+
 Router.put('/updateCell/:id/:user',authenticateJWT,(req,res)=>{
     const SUP = req.body.sup;
     const Site_Code = req.body.siteCode;
@@ -82,14 +79,13 @@ Router.put('/updateCell/:id/:user',authenticateJWT,(req,res)=>{
 
     db.query(sql,valeurs,(err,resultat)=>{
         if (err)console.log("error :",err)
-        else {console.log("modifier !")
+        else {
         db.query(sqlHistorique, valuesHistorique, (err, resultat) => {
             if (err) {
                 console.error('Erreur lors de l\'insertion dans la base de données :', err);
                 res.status(500).send('Erreur lors de l\'insertion dans la base de données');
             } 
             else {
-                console.log(`evénement ajouté à la BDD`);
                 res.send ({recu: true})
             }
         });
@@ -107,7 +103,6 @@ Router.get('/cellulesPage/:value',authenticateJWT, (req, res) => {
             console.log(err);
         } else {
             res.json(resultat);
-            console.log("ok rechercher !");
         }
     });
 });
@@ -121,7 +116,6 @@ Router.get('/updateCell/:value',authenticateJWT, (req, res) => {
             console.log(err);
         } else {
             res.json(resultat);
-            console.log('users',resultat)
         }
     });
 });

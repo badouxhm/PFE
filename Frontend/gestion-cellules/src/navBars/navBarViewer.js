@@ -10,7 +10,6 @@ const NavBarviewer = () => {
   return (
     <div>
         <NavBar links={liens} logo={'/viewerAccueil'}/>
-      
     </div>
   )
 }

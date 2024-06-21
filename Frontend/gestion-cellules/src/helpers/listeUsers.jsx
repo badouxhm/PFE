@@ -3,7 +3,6 @@ import axios from 'axios';
 import { RiUserAddLine } from "react-icons/ri";
 import { GoPencil } from "react-icons/go";
 import { RiUserForbidLine } from "react-icons/ri";
-// import { FaFilter } from "react-icons/fa";
 
 import BoiteDialogue from '../composants/boiteDialogue';
 import BarreRecherche from '../composants/barreRecherche';
@@ -21,13 +20,11 @@ const Liste = () => {
             console.log(rechercheKey)
             axios.get(`http://localhost:3002/listeUser/${rechercheKey}`,{headers :{'Authorization': `${sessionStorage.getItem('token')}`}})
             .then((res)=>{
-                console.log(res.data);
                 setData(res.data)
             }).catch((err)=>{
                 console.log("Erreur dans la recherche :",err)
             })
         } else{
-            console.log("recherche ne marche pas")
             setData(InitialData)
         }
     },[rechercheKey,InitialData])
@@ -39,7 +36,6 @@ const Liste = () => {
                 .then((res) => {
                     setInitialData(res.data);
                     setData(res.data)
-                    console.log(res.data)
                 }).catch((error) => {
                     console.error('Error fetching users:', error);
                 });
@@ -161,8 +157,6 @@ const Liste = () => {
                     </table>
                 </div>
                 {dialogue && <BoiteDialogue message='Vous voulez vraiment changer le status de l`utilisateur ?' onDialog={onDialog}/>}
-                
-
                 </div>
             </div>
         </div>

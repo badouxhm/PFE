@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import SuccessDialog from './SuccesDialog';
-
+import ConfirmationDialog from './boiteDialogue';
 
 const UpdateCell = () => {
     const [sup, setSup] = useState('');
@@ -27,18 +26,12 @@ const UpdateCell = () => {
     const [nature, setNature] = useState('');
     const [code, setCode] = useState('');
     const [messageExist, setMessageExist] = useState(false);
-    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [confirmationDialog, setConfirmationDialog] = useState(false);
 
-    const navigateTo = useNavigate()  
+    const navigateTo = useNavigate();
 
-    const annuler = ()=>{
-        navigateTo('/cellulesPage')
-    }
-
-
-    const handleCloseSuccessModal = () => {
-        navigateTo('/cellulesPage')
-        setShowSuccessModal(false);
+    const annuler = () => {
+        navigateTo('/cellulesPage');
     };
 
     const location = useLocation();
@@ -46,10 +39,8 @@ const UpdateCell = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`http://localhost:3002/updateCell/${id_c}`,{headers :{'Authorization': `${sessionStorage.getItem('token')}`}});
+            const response = await axios.get(`http://localhost:3002/updateCell/${id_c}`, { headers: { 'Authorization': `${sessionStorage.getItem('token')}` } });
             const data = response.data[0];
-            console.log(data)
-            // Populate state with fetched data
             setSup(data.SUP);
             setSiteCode(data.Site_Code);
             setSiteLocation(data.Site_location);
@@ -78,10 +69,9 @@ const UpdateCell = () => {
 
     useEffect(() => {
         fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    const userinfo = JSON.parse(sessionStorage.getItem('user'))
-    const userId = userinfo.id
+    const userinfo = JSON.parse(sessionStorage.getItem('user'));
+    const userId = userinfo.id;
 
     const updateCell = async () => {
         try {
@@ -107,10 +97,9 @@ const UpdateCell = () => {
                 wilaya,
                 nature,
                 code,
-            },{headers :{'Authorization': `${sessionStorage.getItem('token')}`}});
+            }, { headers: { 'Authorization': `${sessionStorage.getItem('token')}` } });
 
             if (resultat.data.recu) {
-                setShowSuccessModal(true);
             }
             if (resultat.data.message) {
                 setMessageExist(true);
@@ -122,9 +111,16 @@ const UpdateCell = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        updateCell();
+        setConfirmationDialog(true);
     };
 
+    const handleDialog = (confirm) => {
+        if (confirm) {
+            updateCell();
+            navigateTo('/cellulesPage')
+        }
+        setConfirmationDialog(false);
+    };
 
     return (
         <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4 mt-24">
@@ -132,7 +128,7 @@ const UpdateCell = () => {
                 <div className="bg-white p-8 rounded-lg shadow-md">
                     <h2 className="text-2xl font-bold mb-6 text-center text-red-600">Modifier une cellule </h2>
                     <div className={messageExist ? "" : "hidden"}>
-                        <h4 className="bg-red-600 text-white mx-10 rounded-lg text-center">E-mail deja existant !</h4>
+                        <h4 className="bg-red-600 text-white mx-10 rounded-lg text-center">E-mail déjà existant !</h4>
                     </div>
                     <form onSubmit={handleFormSubmit}>
                         <div className="mb-4">
@@ -429,7 +425,7 @@ const UpdateCell = () => {
                                 onChange={(e) => setCode(e.target.value)}
                             />
                         </div>
-                        <div className="flex justify-center ">
+                        <div className="flex justify-center">
                             <button
                                 onClick={annuler}
                                 className="bg-red-600 text-white p-2 mx-4 rounded-md hover:bg-red-900"
@@ -437,20 +433,20 @@ const UpdateCell = () => {
                                 Annuler
                             </button>
                             <button
-                                type='submit'
+                                type="submit"
                                 className="bg-red-600 text-white p-2 mx-4 rounded-md hover:bg-red-900"
                             >
                                 Valider
                             </button>
                         </div>
                     </form>
-                    {showSuccessModal && (
-                        <SuccessDialog
-                            message="Cellule modifiée avec succès !"
-                            onClose={handleCloseSuccessModal}
+
+                    {confirmationDialog && (
+                        <ConfirmationDialog
+                            message="Êtes-vous sûr de vouloir modifier cette cellule?"
+                            onDialog={handleDialog}
                         />
                     )}
-
                 </div>
             </div>
         </div>

@@ -13,7 +13,6 @@ const AddUserPage = () => {
         {role === '0' ? <NavBarAdmin /> : role === '1' ? <NavBarediteur /> : <NavBarviewer />}
         <AddUser/>
         <Footer/>
-      
     </div>
   )
 }

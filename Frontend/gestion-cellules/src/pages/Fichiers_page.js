@@ -6,12 +6,14 @@ import NavBarviewer from '../navBars/navBarViewer';
 import ListeFile from '../composants/liste_files';
 import Footer from '../composants/Footer';
 import axios from 'axios';
+import SuccessDialog from '../composants/SuccesDialog'; // Importe le composant SuccessDialog
 
 const Fichiers_page = () => {
     const [file, setFile] = useState(null);
     const [files, setFiles] = useState([]);
     const [preview, setPreview] = useState(null);
     const [uploadPercentage, setUploadPercentage] = useState(0);
+    const [successMessage, setSuccessMessage] = useState("");
     let fd = null;
 
     const handleUpload = (e) => {
@@ -30,7 +32,6 @@ const Fichiers_page = () => {
 
     const handleClick = () => {
         if (file === null) {
-            console.log("Aucun fichier sélectionné !");
             return;
         }
         fd = new FormData();
@@ -42,7 +43,6 @@ const Fichiers_page = () => {
 
     const SendFile = () => {
         if (fd === null) {
-            console.log("Aucun fichier à envoyer.");
             return;
         }
 
@@ -58,11 +58,11 @@ const Fichiers_page = () => {
             }
         })
         .then(() => {
-            console.log("Fichier envoyé !");
             setPreview(null);
             setFile(null);
-            setUploadPercentage(0); // Reset the upload percentage after sending the file
+            setUploadPercentage(0);
             fetchFiles();
+            setSuccessMessage("Fichier envoyé avec succès !");
         })
         .catch(error => {
             console.error("Une erreur s'est produite lors de l'envoi du fichier :", error);
@@ -130,6 +130,8 @@ const Fichiers_page = () => {
                 <ListeFile files={files} />
             </div>
             <Footer />
+
+            {successMessage && <SuccessDialog message={successMessage} onClose={() => setSuccessMessage("")} />}
         </>
     );
 };

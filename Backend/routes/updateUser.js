@@ -17,13 +17,11 @@ Router.put('/updateUser/:id',authenticateJWT,(req,res)=>{
     const sql = "UPDATE users SET nom = ?,prenom = ? ,email = ?,password = ?,date_naissance = ? ,role = ? WHERE id = ?";
     const valeurs = [nom, prenom, email, passwordHashed, date_naissance, role,id_c];
     
-
     db.query(sql,valeurs,(err,resultat)=>{
         if (err)console.log("error :",err)
-        else {console.log("modifier !")
-        }
     })
 })
+
 Router.get('/updateUser/:id',authenticateJWT,(req,res)=>{
     const rechercheKey = req.params.id
     const value = [rechercheKey];
@@ -34,7 +32,6 @@ Router.get('/updateUser/:id',authenticateJWT,(req,res)=>{
             console.log(err);
         } else {
             res.json(resultat);
-            console.log(resultat)
         }
     });
 })

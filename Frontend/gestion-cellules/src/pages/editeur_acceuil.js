@@ -4,7 +4,6 @@ import Footer from '../composants/Footer'
 import ChartT from '../composants/chart'
 const editeur_acceuil = () => {
 
-
   return (
     <div>
       <NavBar />

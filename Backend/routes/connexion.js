@@ -1,6 +1,6 @@
 const express = require('express');
 const Router = express.Router();
-const { generateToken, authenticateJWT, comparePassword } = require('../auth');
+const { generateToken, comparePassword } = require('../auth');
 const db = require("../db")
  
 Router.post('/',(req,res)=>{
@@ -26,17 +26,12 @@ Router.post('/',(req,res)=>{
                 const poste=resultat[0].poste
                 const tel=resultat[0].tel
                 const token = generateToken(id,matricule,nom,prenom,email,tel,role,poste);
-                
-                console.log(resultat[0].role)
                 res.send({token:token ,role : resultat[0].role})
             }else{
-
-                console.log('Mot de passe incorrect')
                 res.send({message: 'Mot de passe incorrect'})
             }
         }else{
-            console.log('Email incorrect')
-                res.send({message: 'Mot de passe incorrect'})
+            res.send({message: 'Mot de passe incorrect'})
         }
     });
 })

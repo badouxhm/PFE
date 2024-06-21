@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import SuccessDialog from './SuccesDialog';
 import BoiteDialogue from './boiteDialogue';
 
 const UpdateUser = () => {
@@ -15,7 +14,6 @@ const UpdateUser = () => {
   const [role, setRole] = useState('');
   const [poste, setPoste] = useState('');
   const [messageExist, setMessageExist] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [dialogue, setDialogue] = useState(false);
 
   const navigateTo = useNavigate();
@@ -24,9 +22,6 @@ const UpdateUser = () => {
     navigateTo('/listeUser');
   };
 
-  const handleCloseSuccessModal = () => {
-    setShowSuccessModal(false);
-  };
 
   const location = useLocation();
   const id_c = location.pathname.split('/')[2];
@@ -78,9 +73,6 @@ const UpdateUser = () => {
         }
       });
 
-      if (resultat.data.recu) {
-        setShowSuccessModal(true);
-      }
       if (resultat.data.message) {
         console.log(resultat.data);
         setMessageExist(true);
@@ -240,12 +232,7 @@ const UpdateUser = () => {
               </button>
             </div>
           </form>
-          {showSuccessModal && (
-            <SuccessDialog
-              message="Utilisateur modifié avec succès !"
-              onClose={handleCloseSuccessModal}
-            />
-          )}
+
           {dialogue && (
             <BoiteDialogue
               message="Vous voulez vraiment modifier cet utilisateur ?"

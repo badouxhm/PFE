@@ -2,6 +2,7 @@ const express = require('express');
 const Router = express.Router();
 const db = require ('../db')
 const { authenticateJWT } = require('../auth');
+
 Router.get('/listeUser',authenticateJWT,(req,res)=>{
     const sql ='SELECT * FROM users'
     db.query(sql, (err, resultat) => {
@@ -10,21 +11,20 @@ Router.get('/listeUser',authenticateJWT,(req,res)=>{
         }
         else{
             res.json(resultat) 
-            console.log(resultat)
         }
     });
-
 })
+
 Router.delete('/listeUser/:id',authenticateJWT,(req,res)=>{
     const id = req.params.id
     const sql = "UPDATE users SET status = CASE WHEN status = 1 THEN 0 ELSE 1 END WHERE id = ?"
     const value = [id]
-    console.log('suppp')
+
     db.query(sql,value,(err,resultat)=>{
         if (err)console.log("error :",err)
-        else console.log("desactivé !")
     })
 })
+
 Router.get('/listeUser/:value',authenticateJWT, (req, res) => {
     const rechercheKey = '%'+req.params.value+'%'
     const value = [rechercheKey, rechercheKey, rechercheKey, rechercheKey, rechercheKey, rechercheKey, rechercheKey];
@@ -34,7 +34,6 @@ Router.get('/listeUser/:value',authenticateJWT, (req, res) => {
             res.send({ error: err });
         } else {
             res.json(resultat);
-            console.log("ok rechercher !");
         }
     });
 });

@@ -4,8 +4,9 @@ import NavBarediteur from '../navBars/navBarEditeur'
 import NavBarviewer from '../navBars/navBarViewer'
 import Footer from '../composants/Footer'
 import ListeCellules from '../composants/liste_cellules'
+
 const cellulesPage = () => {
-        const role = sessionStorage.getItem('role')
+  const role = sessionStorage.getItem('role')
   return (
     <div>
       {role === '0' ? <NavBarAdmin /> : role === '1' ? <NavBarediteur /> : <NavBarviewer />}
