@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import BoiteDialogue from './boiteDialogue';
+import SuccesDialog from './SuccesDialog';
 
 const UpdateUser = () => {
   const [matricule, setMatricule] = useState('');
@@ -15,44 +16,42 @@ const UpdateUser = () => {
   const [poste, setPoste] = useState('');
   const [messageExist, setMessageExist] = useState(false);
   const [dialogue, setDialogue] = useState(false);
+  const [succes, setSucces] = useState(false);
 
   const navigateTo = useNavigate();
+  const location = useLocation();
+  const id_c = location.pathname.split('/')[2];
 
   const annuler = () => {
     navigateTo('/listeUser');
   };
 
-
-  const location = useLocation();
-  const id_c = location.pathname.split('/')[2];
-
   const fetchData = async () => {
     try {
-        const response = await axios.get(`http://localhost:3002/updateUser/${id_c}`, {
-            headers: {
-                'Authorization': `${sessionStorage.getItem('token')}`
-            }
-        });
-        const data = response.data;
-        if (Array.isArray(data) && data.length > 0) {
-            const user = data[0];
-            setMatricule(user.matricule)
-            setNom(user.nom);
-            setPrenom(user.prenom);
-            setDate_naissance(user.date_naissance.split("T")[0]);
-            setEmail(user.email);
-            setTel(user.tel)
-            setPassword(user.password);
-            setRole(user.role);
-            setPoste(user.poste);
-        } else {
-            console.error('No user data found');
+      const response = await axios.get(`http://localhost:3002/updateUser/${id_c}`, {
+        headers: {
+          'Authorization': `${sessionStorage.getItem('token')}`
         }
+      });
+      const data = response.data;
+      if (Array.isArray(data) && data.length > 0) {
+        const user = data[0];
+        setMatricule(user.matricule);
+        setNom(user.nom);
+        setPrenom(user.prenom);
+        setDate_naissance(user.date_naissance.split("T")[0]);
+        setEmail(user.email);
+        setTel(user.tel);
+        setPassword(user.password);
+        setRole(user.role);
+        setPoste(user.poste);
+      } else {
+        console.error('Aucune donnée utilisateur trouvée');
+      }
     } catch (error) {
-        console.error('Error fetching user data', error);
+      console.error('Erreur lors de la récupération des données de l\'utilisateur', error);
     }
-};
-
+  };
 
   useEffect(() => {
     fetchData();
@@ -61,24 +60,26 @@ const UpdateUser = () => {
   const updateUser = async () => {
     try {
       const resultat = await axios.put(`http://localhost:3002/updateUser/${id_c}`, {
+        Matricule: matricule,
         Nom: nom,
         Prenom: prenom,
         Date_naissance: date_naissance,
         Email: email,
         Password: password,
         Role: role,
+        Poste: poste,
+        Tel: tel
       }, {
         headers: {
           'Authorization': `${sessionStorage.getItem('token')}`,
         }
       });
-
+  
       if (resultat.data.message) {
-        console.log(resultat.data);
-        setMessageExist(true);
-      }
+        setSucces(true);
+      } 
     } catch (error) {
-      console.error('Error updating user', error);
+      console.error('Erreur lors de la mise à jour de l\'utilisateur', error);
     }
   };
   
@@ -91,9 +92,13 @@ const UpdateUser = () => {
   const onDialog = (choix) => {
     if (choix) {
       updateUser();
-      navigateTo('/listeUser')
     }
     setDialogue(false);
+  };
+
+  const handleSuccessDialogClose = () => {
+    setSucces(false);
+    navigateTo('/listeUser');
   };
 
   return (
@@ -177,7 +182,6 @@ const UpdateUser = () => {
                 onChange={(e) => setTel(e.target.value)}
               />
             </div>
-            
             <div className="mb-4">
               <label htmlFor="password" className="block text-sm font-medium text-gray-600">Mot de passe</label>
               <input
@@ -206,7 +210,7 @@ const UpdateUser = () => {
               </select>
             </div>
             <div className="mb-4">
-              <label htmlFor="tel" className="block text-sm font-medium text-gray-600">Poste</label>
+              <label htmlFor="poste" className="block text-sm font-medium text-gray-600">Poste</label>
               <input
                 type="text"
                 id="poste"
@@ -237,6 +241,13 @@ const UpdateUser = () => {
             <BoiteDialogue
               message="Vous voulez vraiment modifier cet utilisateur ?"
               onDialog={onDialog}
+            />
+          )}
+
+          {succes && (
+            <SuccesDialog
+              message="Utilisateur modifié avec succès"
+              onClose={handleSuccessDialogClose}
             />
           )}
         </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import BoiteDialog from './boiteDialogue';
+import SuccesDialog from './SuccesDialog';
 import { useNavigate } from 'react-router-dom';
 
 const Add_user = () => {
@@ -13,8 +14,9 @@ const Add_user = () => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const [poste, setPoste] = useState('');
-  const [MessageExist, setMessageExist] = useState(false);
+  const [messageExist, setMessageExist] = useState(false);
   const [dialogue, setDialogue] = useState(false);
+  const [succes, setSucces] = useState(false);
 
   const navigateTo = useNavigate();
 
@@ -26,8 +28,9 @@ const Add_user = () => {
   const onDialog = (choix) => {
     if (choix) {
       createUser();
+    } else {
+      setDialogue(false);
     }
-    setDialogue(false);
   };
 
   const createUser = () => {
@@ -49,9 +52,14 @@ const Add_user = () => {
       if (resultat.data.message) {
         setMessageExist(true);
       } else {
-        navigateTo('/listeUser');
+        setSucces(true);
       }
     });
+  };
+
+  const handleCloseSuccess = () => {
+    setSucces(false);
+    navigateTo('/listeUser');
   };
 
   return (
@@ -60,7 +68,7 @@ const Add_user = () => {
         <div className="bg-white p-8 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold mb-6 text-center text-red-600">Ajouter un utilisateur</h2>
           <form onSubmit={handleFormSubmit}>
-            <div className={MessageExist ? "h-10" : "hidden h-10"}>
+            <div className={messageExist ? "h-10" : "hidden h-10"}>
               <h4 className="bg-red-600 mx-10 text-white rounded-lg text-center text-xl">Utilisateur deja existant !</h4>
             </div>
             <div className="mb-4">
@@ -197,6 +205,12 @@ const Add_user = () => {
             <BoiteDialog
               message="Vous voulez vraiment ajouter cet utilisateur ?"
               onDialog={onDialog}
+            />
+          )}
+          {succes && (
+            <SuccesDialog
+              message="Utilisateur ajouté avec succès"
+              onClose={handleCloseSuccess}
             />
           )}
         </div>

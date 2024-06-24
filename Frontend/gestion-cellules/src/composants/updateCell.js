@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ConfirmationDialog from './boiteDialogue';
+import SuccessDialog from './SuccesDialog';
 
 const UpdateCell = () => {
     const [sup, setSup] = useState('');
@@ -27,7 +28,7 @@ const UpdateCell = () => {
     const [code, setCode] = useState('');
     const [messageExist, setMessageExist] = useState(false);
     const [confirmationDialog, setConfirmationDialog] = useState(false);
-
+    const [succes, setSucces] = useState(false)
     const navigateTo = useNavigate();
 
     const annuler = () => {
@@ -100,6 +101,7 @@ const UpdateCell = () => {
             }, { headers: { 'Authorization': `${sessionStorage.getItem('token')}` } });
 
             if (resultat.data.recu) {
+                setSucces(true)
             }
             if (resultat.data.message) {
                 setMessageExist(true);
@@ -113,11 +115,14 @@ const UpdateCell = () => {
         e.preventDefault();
         setConfirmationDialog(true);
     };
+    const handleSuccessDialogClose = () => {
+        setSucces(false);
+        navigateTo('/cellulesPage');
+      };
 
     const handleDialog = (confirm) => {
         if (confirm) {
             updateCell();
-            navigateTo('/cellulesPage')
         }
         setConfirmationDialog(false);
     };
@@ -447,6 +452,13 @@ const UpdateCell = () => {
                             onDialog={handleDialog}
                         />
                     )}
+
+                    {succes && (
+                        <SuccessDialog
+                        message="Cellule modifié avec succès"
+                        onClose={handleSuccessDialogClose}
+                        />
+                    )}        
                 </div>
             </div>
         </div>

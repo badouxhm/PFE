@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import SuccessDialog from './boiteDialogue';
+import Succes from './SuccesDialog';
+
 import { useNavigate } from 'react-router-dom';
 
 const Add_cell = () => {
@@ -28,6 +30,7 @@ const Add_cell = () => {
     const [code, setCode] = useState('');
     const [MessageExist,setMessageExist] = useState(false)
     const [dialogue, setDialogue] = useState(false);
+    const [succes, setSucces] = useState(false);
 
     const navigateTo = useNavigate()  
 
@@ -41,7 +44,6 @@ const Add_cell = () => {
         if (choix) {
             createCell();
         }
-        navigateTo('/cellulesPage');
     };
     const userinfo = JSON.parse(sessionStorage.getItem('user'))
     const userId = userinfo.id
@@ -76,9 +78,15 @@ const Add_cell = () => {
       if (resultat.data.message){
         console.log(resultat.data)
         setMessageExist(true)
+      }else{
+        setSucces(true)
       }
     })
   }
+  const handleCloseSuccess = () => {
+    setSucces(false);
+    navigateTo('/cellulesPage');
+  };
   
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4 mt-24">
@@ -402,6 +410,12 @@ const Add_cell = () => {
                     onDialog={handleCloseSuccessModal}
                     />
                 )}
+                {succes && (
+            <Succes
+              message="cellule ajouté avec succès"
+              onClose={handleCloseSuccess}
+            />
+          )}
                 </div>
             </div>
         </div>

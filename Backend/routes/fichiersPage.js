@@ -29,9 +29,6 @@ Router.post('/FichiersPage', authenticateJWT, upload.single('file'), (req, res) 
                     res.status(500).send('Error inserting file information');
                 });
             }
-
-            console.log('File information inserted successfully');
-
             csvtojson({
                 delimiter: '|'
             })
